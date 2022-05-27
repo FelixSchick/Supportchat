@@ -2,6 +2,8 @@ package de.illegalaccess.supportchat;
 
 import de.illegalaccess.supportchat.commands.SupportCommand;
 import de.illegalaccess.supportchat.listeners.PlayerChatListener;
+import de.illegalaccess.supportchat.listeners.PlayerLoginListener;
+import de.illegalaccess.supportchat.listeners.PlayerQuitListener;
 import de.illegalaccess.supportchat.mysql.MySQL;
 import jdk.nashorn.internal.objects.annotations.Getter;
 import net.md_5.bungee.api.ProxyServer;
@@ -41,6 +43,8 @@ public final class Supportchat extends Plugin {
 
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new SupportCommand());
         ProxyServer.getInstance().getPluginManager().registerListener(this, new PlayerChatListener());
+        ProxyServer.getInstance().getPluginManager().registerListener(this, new PlayerLoginListener());
+        ProxyServer.getInstance().getPluginManager().registerListener(this, new PlayerQuitListener());
 
     }
 
