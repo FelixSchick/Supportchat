@@ -158,6 +158,7 @@ public class SupportCommand extends Command {
                                             if (uuids != null) {
                                                 if (ProxyServer.getInstance().getPlayer(uuids) != null) {
                                                     ProxiedPlayer all = ProxyServer.getInstance().getPlayer(uuids);
+                                                    supporterManager.updateLastActivity(uuids.toString());
                                                     all.sendMessage(Supportchat.getInstance().prefix + "§8[" + args[1] + "] Das Ticket wurde von §e"+player.getName()+" §7geschlossen.");
                                                 }
                                             }
@@ -182,6 +183,7 @@ public class SupportCommand extends Command {
                                     if (uuids != null) {
                                         if (ProxyServer.getInstance().getPlayer(uuids) != null) {
                                             ProxiedPlayer all = ProxyServer.getInstance().getPlayer(uuids);
+                                            supporterManager.updateLastActivity(uuids.toString());
                                             all.sendMessage(Supportchat.getInstance().prefix + "§8[" + player.getName() + "] Das Ticket wurde von §e"+player.getName()+" §7geschlossen.");
                                         }
                                     }
