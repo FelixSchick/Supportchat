@@ -47,7 +47,7 @@ public class MySQL {
             statement.executeUpdate(qry);
             statement.close();
         }catch(SQLException exception){
-            exception.fillInStackTrace();
+            exception.printStackTrace();
             System.out.println("§7[§bMySQL§7] §cEin Fehler ist aufgetreten, Exeption: update error");
         }
     }
@@ -69,8 +69,8 @@ public class MySQL {
 
 
     public void createTabels() {
-        update("CREATE TABLE IF NOT EXISTS `supporters` ( `supUUID` VARCHAR(36), `ratings` VARCHAR(100000000000), isLogedIn BOOLEAN , `ticketCounter` INT(10000000), `lastActivity` TIMESTAMP, PRIMARY KEY (`supUUID`)) ENGINE = InnoDB;");
-        update("CREATE TABLE IF NOT EXISTS `tickets` ( `ticketID` VARCHAR(16), `userUUID` VARCHAR(36), `supUUIDs` VARCHAR(360000000), `creatingDate` TIMESTAMP, `closedDate` TIMESTAMP, `status` VARCHAR(10), PRIMARY KEY (`ticketID`)) ENGINE = InnoDB;");
+        update("CREATE TABLE IF NOT EXISTS `supporters` ( `supUUID` VARCHAR(36), `ratings` TEXT(65535), isLoggedIn BOOLEAN , `ticketCounter` INT(255), `lastActivity` TIMESTAMP, PRIMARY KEY (`supUUID`)) ENGINE = InnoDB;");
+        update("CREATE TABLE IF NOT EXISTS `tickets` ( `ticketID` VARCHAR(16), `userUUID` VARCHAR(36), `supUUIDs` TEXT(65535), `creatingDate` TIMESTAMP DEFAULT CURRENT_TIMESTAMP, `closedDate` TIMESTAMP DEFAULT CURRENT_TIMESTAMP, `status` VARCHAR(10), PRIMARY KEY (`ticketID`)) ENGINE = InnoDB;");
     }
 
     public Connection getConnection() {

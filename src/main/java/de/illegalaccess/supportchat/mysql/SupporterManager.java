@@ -13,7 +13,7 @@ public class SupporterManager {
     //insert into supUUID, ratings, ticketCounter, lastActiviy into supporters
     public void insertSupporter(String supUUID, int ratings, int ticketCounter, Boolean isLoggedIn) {
         try {
-            connection.prepareStatement("INSERT INTO supporters (supUUID, ratings, ticketCounter, isLoggedIn) VALUES ('" + supUUID + "', " + ratings + ", " + ticketCounter + ", " +isLoggedIn+")").executeUpdate();
+            connection.prepareStatement("INSERT INTO supporters (supUUID, ratings, ticketCounter, isLoggedIn) VALUES ('" + supUUID + "',' " + ratings + "', '" + ticketCounter + "', '" +isLoggedIn+"')").executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -49,6 +49,19 @@ public class SupporterManager {
         return ratings;
     }
 
+    //check if supporter exists
+    public boolean isSupporter(String supUUID) {
+        try {
+            ResultSet resultSet = connection.prepareStatement("SELECT * FROM supporters WHERE supUUID = '" + supUUID + "'").executeQuery();
+            if (resultSet.next()) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     //get ticketCounter
     public int getTicketCounter(String supUUID) {
         try {
@@ -63,11 +76,11 @@ public class SupporterManager {
     }
 
     //get lastAcctiviy in timestamp
-    public Timestamp getLastActiviy(String supUUID) {
+    public Timestamp getLastActivity(String supUUID) {
         try {
-            ResultSet resultSet = connection.prepareStatement("SELECT lastActiviy FROM supporters WHERE supUUID = '" + supUUID + "'").executeQuery();
+            ResultSet resultSet = connection.prepareStatement("SELECT `lastActivity` FROM supporters WHERE supUUID = '" + supUUID + "'").executeQuery();
             if (resultSet.next()) {
-                return resultSet.getTimestamp("lastActiviy");
+                return resultSet.getTimestamp("lastActivity");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -76,9 +89,9 @@ public class SupporterManager {
     }
 
     //update lastActiviy
-    public void updateLastActiviy(String supUUID) {
+    public void updateLastActivity(String supUUID) {
         try {
-            connection.prepareStatement("UPDATE supporters SET lastActiviy = NOW() WHERE supUUID = '" + supUUID + "'").executeUpdate();
+            connection.prepareStatement("UPDATE supporters SET `lastActivity` = NOW() WHERE supUUID = '" + supUUID + "'").executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -149,6 +162,19 @@ public class SupporterManager {
             e.printStackTrace();
         }
         return false;
+    }
+
+    //toggle isLoggedIn
+    public void toggleIsLoggedIn(String supUUID) {
+        try {
+            ResultSet resultSet = connection.prepareStatement("SELECT isLoggedIn FROM supporters WHERE supUUID = '" + supUUID + "'").executeQuery();
+            if (resultSet.next()) {
+                boolean isLoggedIn = resultSet.getBoolean("isLoggedIn");
+                connection.prepareStatement("UPDATE supporters SET isLoggedIn = " + !isLoggedIn + " WHERE supUUID = '" + supUUID + "'").executeUpdate();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
