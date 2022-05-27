@@ -1,0 +1,3 @@
+name: Supportchat
+version: '${project.version}'
+main: de.illegalaccess.supportchat.Supportchat
