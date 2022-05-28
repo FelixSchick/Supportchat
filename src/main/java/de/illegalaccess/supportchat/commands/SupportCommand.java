@@ -78,7 +78,7 @@ public class SupportCommand extends Command {
                             } else
                                 player.sendMessage(Supportchat.getInstance().prefix + "§7Du bist nicht eingeloggt.");
                         } else
-                            player.sendMessage(Supportchat.getInstance().prefix + "§7Benutze §e/sc join <Spieler>");
+                            player.sendMessage(Supportchat.getInstance().prefix + "§7Benutze §e/support join <Spieler>");
                     } else
                         player.sendMessage(Supportchat.getInstance().prefix + "§cDu hast keine Rechte um diesen Befehl zu nutzen.");
                 } else if (args[0].equalsIgnoreCase("send")) {
@@ -114,7 +114,7 @@ public class SupportCommand extends Command {
                             } else
                                 player.sendMessage(Supportchat.getInstance().prefix + "§7Du bist nicht eingeloggt.");
                         } else
-                            player.sendMessage(Supportchat.getInstance().prefix + "§7Benutze §e/sc send <Spieler> <Nachricht>");
+                            player.sendMessage(Supportchat.getInstance().prefix + "§7Benutze §e/support send <Spieler> <Nachricht>");
                     } else
                         player.sendMessage(Supportchat.getInstance().prefix + "§cDu hast keine Rechte um diesen Befehl zu nutzen.");
                 } else if (args[0].equalsIgnoreCase("close")) {
@@ -296,7 +296,7 @@ public class SupportCommand extends Command {
                                 player.sendMessage(Supportchat.getInstance().prefix + "§7Dieser Spieler ist kein Supporter.");
 
                         } else
-                            player.sendMessage(Supportchat.getInstance().prefix + "§7Benutze: §e/supportchat move <Spieler> <TicketID>");
+                            player.sendMessage(Supportchat.getInstance().prefix + "§7Benutze: §e/support move <Spieler> <TicketID>");
                     } else
                         player.sendMessage(Supportchat.getInstance().prefix + "§cDazu hast du keine Rechte.");
                 } else if (args[0].equalsIgnoreCase("history")) {
@@ -323,7 +323,7 @@ public class SupportCommand extends Command {
                             } else
                                 player.sendMessage(Supportchat.getInstance().prefix + "§7Dieser Spieler hat kein offenes Ticket.");
                         } else
-                            player.sendMessage(Supportchat.getInstance().prefix + "§7Benutze: §e/supportchat history <Spieler>");
+                            player.sendMessage(Supportchat.getInstance().prefix + "§7Benutze: §e/support history <Spieler>");
                     } else
                         player.sendMessage(Supportchat.getInstance().prefix + "§cDazu hast du keine Rechte.");
                 } else if (args[0].equalsIgnoreCase("notify")) {
