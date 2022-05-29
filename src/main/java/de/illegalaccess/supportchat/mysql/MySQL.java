@@ -5,8 +5,6 @@ import de.illegalaccess.supportchat.Supportchat;
 import java.sql.*;
 
 public class MySQL {
-    
-
 
     private static MySQL instance;
 
@@ -24,7 +22,9 @@ public class MySQL {
 
     public void connect() {
         try{
-            connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database , username, password);
+            final String url = "jdbc:mysql://" + host + ":" + port + "/" + database + "?autoReconnect=true";
+            System.out.println(url + "\nUser: " + username + "\nPasswort: " + password);
+            connection = DriverManager.getConnection(url, username, password);
             System.out.println("§7[§bMySQL§7] §aDie verbindung zur MySQL-Datenbank wurde hergestellt.");
         }catch(SQLException exception){
             exception.fillInStackTrace();

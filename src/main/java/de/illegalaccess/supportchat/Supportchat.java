@@ -5,7 +5,6 @@ import de.illegalaccess.supportchat.listeners.PlayerChatListener;
 import de.illegalaccess.supportchat.listeners.PlayerLoginListener;
 import de.illegalaccess.supportchat.listeners.PlayerQuitListener;
 import de.illegalaccess.supportchat.mysql.MySQL;
-import jdk.nashorn.internal.objects.annotations.Getter;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;

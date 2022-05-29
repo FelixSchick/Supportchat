@@ -75,9 +75,9 @@ public class SupportCommand extends Command {
                                         if (!(ticketManager.getSupUUIDs(ticketManager.getTicketID(uuid, TicketStatus.OPEN)).contains(player.getUniqueId()))) {
                                             ticketManager.addSups(ticketManager.getTicketID(uuid, TicketStatus.OPEN), player.getUniqueId().toString());
                                             supporterManager.addTicketCounter(player.getUniqueId().toString());
-                                            player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Du bist dem Suppportchat beigetretten."));
+                                            player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Du bist dem Suppportchat beigetreten."));
                                         } else
-                                            player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Du bist bereits dem Ticket beigetretten."));
+                                            player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Du bist bereits dem Ticket beigetreten."));
                                     } else
                                         player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Das Ticket wurde bereits geschlossen."));
                                 } else
