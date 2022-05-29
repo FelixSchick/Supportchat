@@ -331,7 +331,7 @@ public class SupportCommand extends Command implements TabExecutor {
                 } else if (args[0].equalsIgnoreCase("history")) {
                     if (player.hasPermission("supportchat.history")) {
                         if (args.length == 2) {
-                            int ticketID = ticketManager.getTicketID(UUIDManager.getUUID(args[1]).toString(), TicketStatus.OPEN);
+                            int ticketID = ticketManager.getTicketIDOrderd(UUIDManager.getUUID(args[1]).toString());
                             if (ticketID != 0) {
                                 String userUUID = ticketManager.getUserUUID(ticketID);
                                 Timestamp creatingDate = ticketManager.getCreatingDate(ticketID);
@@ -392,6 +392,8 @@ public class SupportCommand extends Command implements TabExecutor {
                     return Arrays.asList("German", "English", "close");
                 }
             }
+        } else {
+            return null;
         }
         return null;
     }
