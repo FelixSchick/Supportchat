@@ -31,14 +31,17 @@ public final class Supportchat extends Plugin {
         }
     }
 
+    public Configuration getConfig() {
+        return config;
+    }
+
     @Override
     public void onEnable() {
         // Plugin startup logic
         instance = this;
         createFiles();
-        MySQL mySQL = new MySQL();
-        mySQL.connect();
-        mySQL.createTabels();
+        MySQL.getInstance().connect();
+        MySQL.getInstance().createTabels();
 
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new SupportCommand());
         ProxyServer.getInstance().getPluginManager().registerListener(this, new PlayerChatListener());
