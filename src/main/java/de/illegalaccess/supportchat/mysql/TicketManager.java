@@ -1,5 +1,6 @@
 package de.illegalaccess.supportchat.mysql;
 
+import de.illegalaccess.supportchat.utils.TicketLanguage;
 import de.illegalaccess.supportchat.utils.TicketStatus;
 import de.illegalaccess.supportchat.utils.UUIDManager;
 
@@ -13,10 +14,10 @@ public class TicketManager {
     private Connection connection = MySQL.getInstance().getConnection();
 
     //insert new ticket with ticketID, userUUID, supUUIDs, creatingDate, deleteDate, status
-    public void insertTicket(String userUUID, String supUUIDs, TicketStatus status){
+    public void insertTicket(String userUUID, String supUUIDs, TicketLanguage language, TicketStatus status){
         Random random = new Random();
         int randomInt = random.nextInt(999999999);
-        String sql = "INSERT INTO tickets (ticketID, userUUID, supUUIDs, status) VALUES ('"+randomInt+"', '"+userUUID+"', '"+supUUIDs+"', '"+status.toString()+"')";
+        String sql = "INSERT INTO tickets (ticketID, userUUID, supUUIDs, language, status) VALUES ('"+randomInt+"', '"+userUUID+"', '"+supUUIDs+"',  '"+language.toString()+"',  '"+status.toString()+"')";
         try {
             connection.prepareStatement(sql).executeUpdate();
         } catch (Exception e) {
@@ -88,6 +89,20 @@ public class TicketManager {
             ResultSet resultSet = connection.prepareStatement(sql).executeQuery();
             if (resultSet.next()) {
                 return resultSet.getString("userUUID");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    //get language from ticketID
+    public TicketLanguage getLanguage(int ticketID){
+        String sql = "SELECT language FROM tickets WHERE `ticketID` = '"+ticketID+"'";
+        try {
+            ResultSet resultSet = connection.prepareStatement(sql).executeQuery();
+            if (resultSet.next()) {
+                return TicketLanguage.valueOf(resultSet.getString("language"));
             }
         } catch (Exception e) {
             e.printStackTrace();
