@@ -20,7 +20,7 @@ public class PlayerChatListener implements Listener {
         TicketManager ticketManager = new TicketManager();
         SupporterManager supporterManager = new SupporterManager();
         if (!(supporterManager.isSupporter(player.getUniqueId().toString()))) {
-            if (ticketManager.isTicketOpen(player.getUniqueId().toString())) {
+            if (ticketManager.getTicketID(player.getUniqueId().toString(), TicketStatus.OPEN) != 0) {
                 if (!(event.getMessage().startsWith("/"))) {
                     event.setCancelled(true);
                     player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7" + player.getDisplayName() + " §8» §7" + event.getMessage()));

@@ -12,8 +12,12 @@ public class SupporterManager {
 
     //insert into supUUID, ratings, ticketCounter, lastActiviy into supporters
     public void insertSupporter(String supUUID, int ratings, int ticketCounter, Boolean isLoggedIn) {
+        int isLoggedInInt = 0;
+        if (isLoggedIn)
+            isLoggedInInt = 1;
+
         try {
-            connection.prepareStatement("INSERT INTO supporters (supUUID, ratings, ticketCounter, isLoggedIn) VALUES ('" + supUUID + "',' " + ratings + "', '" + ticketCounter + "', '" +isLoggedIn+"')").executeUpdate();
+            connection.prepareStatement("INSERT INTO supporters (supUUID, ratings, ticketCounter, isLoggedIn) VALUES ('" + supUUID + "',' " + ratings + "', '" + ticketCounter + "', '" +isLoggedInInt+"')").executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
