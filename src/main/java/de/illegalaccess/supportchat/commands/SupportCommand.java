@@ -9,6 +9,7 @@ import de.illegalaccess.supportchat.utils.UUIDManager;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -40,8 +41,8 @@ public class SupportCommand extends Command implements TabExecutor {
                     if (args[0].equalsIgnoreCase("German")) {
                         if(ticketManager.getTicketID(player.getUniqueId().toString(), TicketStatus.OPEN) == 0) {
                             TextComponent main = new TextComponent(Supportchat.getInstance().prefix + "§7Der Spieler §e" + player.getDisplayName() + "§8[§e" + args[0] + "§8] §7benötigt hilfe.");
-                            main.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent[]{new TextComponent("§7Klicke hier um das Ticket zu öffnen!")}));
-                            main.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/support join " + player.getDisplayName()));
+                            main.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§7Klicke hier um das Ticket zu öffnen!").create()));
+                            main.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/support join " + player.getName()));
                             for (ProxiedPlayer all : ProxyServer.getInstance().getPlayers()) {
                                 if (all.hasPermission("supportchat.notify")) {
                                     if (supporterManager.isLoggedIn(all.getUniqueId().toString())) {
@@ -55,8 +56,8 @@ public class SupportCommand extends Command implements TabExecutor {
                     } else if (args[0].equalsIgnoreCase("English")) {
                         if(ticketManager.getTicketID(player.getUniqueId().toString(), TicketStatus.OPEN) == 0) {
                             TextComponent main = new TextComponent(Supportchat.getInstance().prefix + "§7Der Spieler §e" + player.getDisplayName() + "§8[§e" + args[0] + "§8] §7benötigt hilfe.");
-                            main.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent[]{new TextComponent("§7Klicke hier um das Ticket zu öffnen!")}));
-                            main.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/support join " + player.getDisplayName()));
+                            main.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§7Klicke hier um das Ticket zu öffnen!").create()));
+                            main.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/support join " + player.getName()));
                             for (ProxiedPlayer all : ProxyServer.getInstance().getPlayers()) {
                                 if (all.hasPermission("supportchat.notify")) {
                                     if (supporterManager.isLoggedIn(all.getUniqueId().toString())) {
@@ -82,11 +83,11 @@ public class SupportCommand extends Command implements TabExecutor {
                                             if (ticketManager.getLanguage(ticketManager.getTicketID(uuid, TicketStatus.OPEN)) == TicketLanguage.GERMAN) {
                                                 for (UUID sup : ticketManager.getSupUUIDs(ticketManager.getTicketID(uuid, TicketStatus.OPEN))) {
                                                     ProxiedPlayer supPlayer = ProxyServer.getInstance().getPlayer(sup);
-                                                    supPlayer.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§8[§e" + args[1] + "§8] §e" + player.getDisplayName() + " §8» §7 §7Herzlich willkommmen im offiziellen Support von Diesesnetzwerk.de wie kann ich dir weiterhelfen?"));
+                                                    supPlayer.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§8[§e" + args[1] + "§8] §e" + player.getDisplayName() + " §8» §7 §7Herzlich willkommen im offiziellen Support von Diesesnetzwerk.de wie kann ich dir weiterhelfen?"));
                                                 }
                                                 if (ProxyServer.getInstance().getPlayer(UUID.fromString(uuid)) != null) {
                                                     ProxiedPlayer target = ProxyServer.getInstance().getPlayer(UUID.fromString(uuid));
-                                                    target.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§8[§e" + args[1] + "§8] §e" + player.getDisplayName() + " §8» §7 §7Herzlich willkommmen im offiziellen Support von Diesesnetzwerk.de wie kann ich dir weiterhelfen?"));
+                                                    target.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§8[§e" + args[1] + "§8] §e" + player.getDisplayName() + " §8» §7 §7Herzlich willkommen im offiziellen Support von Diesesnetzwerk.de wie kann ich dir weiterhelfen?"));
                                                 }
                                             } else {
                                                 for (UUID sup : ticketManager.getSupUUIDs(ticketManager.getTicketID(uuid, TicketStatus.OPEN))) {
