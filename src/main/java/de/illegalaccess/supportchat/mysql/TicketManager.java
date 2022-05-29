@@ -41,6 +41,21 @@ public class TicketManager {
         return 0;
     }
 
+    //get ticketID from userUUID order by creatingDate
+    public int getTicketIDOrderd(String userUUID){
+        String sql = "SELECT ticketID FROM tickets WHERE userUUID = '"+userUUID+"' ORDER BY creatingDate DESC";
+        try {
+            ResultSet resultSet = connection.prepareStatement(sql).executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt("ticketID");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+
 
     //check if ticket exists and status closed by userUUID
 
