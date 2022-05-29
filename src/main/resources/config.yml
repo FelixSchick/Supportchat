@@ -3,4 +3,4 @@ MySQL:
   port: 3306
   database:
   username:
-  passoword:
+  password:

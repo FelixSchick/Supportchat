@@ -7,46 +7,60 @@ import java.sql.*;
 public class MySQL {
 
     private static MySQL instance;
-
-    private static Connection connection;
-    private String host = Supportchat.getInstance().config.getString("MySQL.host");
-    private String port = Supportchat.getInstance().config.getString("MySQL.port");
-    private String database = Supportchat.getInstance().config.getString("MySQL.database");
-    private String username = Supportchat.getInstance().config.getString("MySQL.username");
-    private String password = Supportchat.getInstance().config.getString("MySQL.password");
-
+    private Connection connection;
+    private String host;
+    private int port;
+    private String database;
+    private String username;
+    private String password;
 
     public MySQL() {
-        instance = this;
+        host = Supportchat.getInstance().getConfig().getString("MySQL.host");
+        port = Supportchat.getInstance().getConfig().getInt("MySQL.port");
+        database = Supportchat.getInstance().getConfig().getString("MySQL.database");
+        username = Supportchat.getInstance().getConfig().getString("MySQL.username");
+        password = Supportchat.getInstance().getConfig().getString("MySQL.password");
+    }
+
+    public static MySQL getInstance(){
+        if(instance == null){
+            instance = new MySQL();
+        }
+        return instance;
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        disconnect();
     }
 
     public void connect() {
-        try{
+        try {
             final String url = "jdbc:mysql://" + host + ":" + port + "/" + database + "?autoReconnect=true";
             System.out.println(url + "\nUser: " + username + "\nPasswort: " + password);
             connection = DriverManager.getConnection(url, username, password);
             System.out.println("§7[§bMySQL§7] §aDie verbindung zur MySQL-Datenbank wurde hergestellt.");
-        }catch(SQLException exception){
+        } catch (SQLException exception) {
             exception.fillInStackTrace();
             System.out.println("§7[§bMySQL§7] §cEin Fehler ist aufgetreten, bitte überprüfe deine config!");
         }
     }
 
     public void disconnect() {
-        try{
-            if(connection != null) connection.close();
-        }catch(SQLException exception){
+        try {
+            if (connection != null) connection.close();
+        } catch (SQLException exception) {
             exception.fillInStackTrace();
             System.out.println("§7[§bMySQL§7] §cEin Fehler ist aufgetreten, bitte überprüfe deine config!");
         }
     }
 
-    public void update(String qry){
-        try{
+    public void update(String qry) {
+        try {
             Statement statement = connection.createStatement();
             statement.executeUpdate(qry);
             statement.close();
-        }catch(SQLException exception){
+        } catch (SQLException exception) {
             exception.printStackTrace();
             System.out.println("§7[§bMySQL§7] §cEin Fehler ist aufgetreten, Exeption: update error");
         }
@@ -77,7 +91,4 @@ public class MySQL {
         return connection;
     }
 
-    public static MySQL getInstance() {
-        return instance;
-    }
 }
