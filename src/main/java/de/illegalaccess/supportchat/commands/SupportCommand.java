@@ -18,6 +18,7 @@ import net.md_5.bungee.api.plugin.TabExecutor;
 
 import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.UUID;
 
 public class SupportCommand extends Command implements TabExecutor {
@@ -387,15 +388,18 @@ public class SupportCommand extends Command implements TabExecutor {
             if (player.hasPermission("supportchat.supporter")) {
                 if (args.length == 1) {
                     return Arrays.asList("close", "history", "notify", "send", "join", "stats", "move");
+                } else {
+                    return Collections.emptyList();
                 }
             } else {
                 if (args.length == 1) {
                     return Arrays.asList("German", "English", "close");
+                } else {
+                    return Collections.emptyList();
                 }
             }
         } else {
             return null;
         }
-        return null;
     }
 }
