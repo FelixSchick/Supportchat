@@ -55,6 +55,21 @@ public class TicketManager {
         return 0;
     }
 
+    //get all tickets from userUUID
+    public List<Integer> getTickets(String userUUID){
+        List<Integer> tickets = new ArrayList<>();
+        String sql = "SELECT ticketID FROM tickets WHERE userUUID = '"+userUUID+"'";
+        try {
+            ResultSet resultSet = connection.prepareStatement(sql).executeQuery();
+            while (resultSet.next()) {
+                tickets.add(resultSet.getInt("ticketID"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return tickets;
+    }
+
 
 
     //check if ticket exists and status closed by userUUID

@@ -334,26 +334,30 @@ public class SupportCommand extends Command implements TabExecutor {
                 } else if (args[0].equalsIgnoreCase("history")) {
                     if (player.hasPermission("supportchat.history")) {
                         if (args.length == 2) {
-                            int ticketID = ticketManager.getTicketIDOrderd(UUIDManager.getUUID(args[1]).toString());
-                            if (ticketID != 0) {
-                                String userUUID = ticketManager.getUserUUID(ticketID);
-                                Timestamp creatingDate = ticketManager.getCreatingDate(ticketID);
-                                Timestamp closedDate = ticketManager.getClosedDate(ticketID);
-                                TicketStatus status = ticketManager.getStatus(ticketID);
+                            if (ProxyServer.getInstance().getPlayer(args[1])!= null) {
+                                ProxiedPlayer target = ProxyServer.getInstance().getPlayer(args[1]);
+                                if (ticketManager.getTickets(player.getUniqueId().toString()).isEmpty())
+                                    player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Der Spieler hat kein Ticket"));
+                                for (int ticketID : ticketManager.getTickets(target.getUniqueId().toString())) {
+                                    String userUUID = ticketManager.getUserUUID(ticketID);
+                                    Timestamp creatingDate = ticketManager.getCreatingDate(ticketID);
+                                    Timestamp closedDate = ticketManager.getClosedDate(ticketID);
+                                    TicketStatus status = ticketManager.getStatus(ticketID);
 
-                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Ticket-ID: §e" + ticketID));
-                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Spieler: §e" + UUIDManager.getName(UUID.fromString(userUUID))));
-                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Erstellt am: §e" + creatingDate));
-                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Geschlossen am: §e" + closedDate));
-                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Supporter: §e"));
-                                for (UUID supUUID : ticketManager.getSupUUIDs(ticketID)) {
-                                    player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7           -§e" + UUIDManager.getName(supUUID)));
+                                    player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Ticket-ID: §e" + ticketID));
+                                    player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Spieler: §e" + UUIDManager.getName(UUID.fromString(userUUID))));
+                                    player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Erstellt am: §e" + creatingDate));
+                                    player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Geschlossen am: §e" + closedDate));
+                                    player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Supporter: §e"));
+                                    for (UUID supUUID : ticketManager.getSupUUIDs(ticketID)) {
+                                        player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7           -§e" + UUIDManager.getName(supUUID)));
+                                    }
+                                    player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Status: §e" + status.toString()));
+                                    player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + " "));
                                 }
-                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Status: §e" + status.toString()));
 
+                            }
 
-                            } else
-                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Dieser Spieler hat kein offenes Ticket."));
                         } else
                             player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Benutze: §e/support history <Spieler>"));
                     } else
