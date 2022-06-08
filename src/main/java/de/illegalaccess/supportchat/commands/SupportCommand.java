@@ -1,5 +1,6 @@
 package de.illegalaccess.supportchat.commands;
 
+import com.google.common.collect.Lists;
 import de.illegalaccess.supportchat.Supportchat;
 import de.illegalaccess.supportchat.mysql.SupporterManager;
 import de.illegalaccess.supportchat.mysql.TicketManager;
@@ -37,7 +38,7 @@ public class SupportCommand extends Command implements TabExecutor {
             if (args.length >= 1) {
                 if (args[0].equalsIgnoreCase("German") || args[0].equalsIgnoreCase("English")) {
                     if (supporterManager.isSupporter(player.getUniqueId().toString())) {
-                        player.sendMessage(Supportchat.getInstance().prefix + "§cDu bist bereits ein Supporter! Du darfst kein Ticket öffnen :P");
+                        player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§cDu bist bereits ein Supporter! Du darfst kein Ticket öffnen :P"));
                         return;
                     }
                     if (args[0].equalsIgnoreCase("German")) {
@@ -276,10 +277,10 @@ public class SupportCommand extends Command implements TabExecutor {
                                 Timestamp lastActiviy = supporterManager.getLastActivity(uuid);
                                 Boolean isLoggedIn = supporterManager.isLoggedIn(uuid);
                                 int ticketCount = supporterManager.getTicketCounter(uuid);
-                                player.sendMessage(Supportchat.getInstance().prefix + "§7Die durchschnitliche von " + args[1] +" ist Bewertung: §e" + rating + "§7/5");
-                                player.sendMessage(Supportchat.getInstance().prefix + "§7"+args[1]+" hat §e" + ticketCount + "§7 Tickets bearbeitet.");
-                                player.sendMessage(Supportchat.getInstance().prefix + "§7"+args[1]+" war zuletzt activ am §e"+ lastActiviy.toString() + "§7.");
-                                player.sendMessage(Supportchat.getInstance().prefix + "§7"+args[1]+" ist §e" + (isLoggedIn ? "§aangemeldet" : "§cnicht angemeldet") + "§7.");
+                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Die durchschnitliche von " + args[1] +" ist Bewertung: §e" + rating + "§7/5"));
+                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7"+args[1]+" hat §e" + ticketCount + "§7 Tickets bearbeitet."));
+                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7"+args[1]+" war zuletzt activ am §e"+ lastActiviy.toString() + "§7."));
+                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7"+args[1]+" ist §e" + (isLoggedIn ? "§aangemeldet" : "§cnicht angemeldet") + "§7."));
                             } else
                                 player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Dieser Spieler ist kein Supporter."));
                         } else
@@ -394,17 +395,17 @@ public class SupportCommand extends Command implements TabExecutor {
                 if (args.length == 1) {
                     return Arrays.asList("close", "history", "notify", "send", "join", "stats", "move");
                 } else {
-                    return new ArrayList<>();
+                    return Lists.newArrayList();
                 }
             } else {
                 if (args.length == 1) {
                     return Arrays.asList("German", "English", "close");
                 } else {
-                    return new ArrayList<>();
+                    return Lists.newArrayList();
                 }
             }
         } else {
-            return new ArrayList<>();
+            return Lists.newArrayList();
         }
     }
 }
