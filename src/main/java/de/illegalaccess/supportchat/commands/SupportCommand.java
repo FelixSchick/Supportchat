@@ -279,7 +279,7 @@ public class SupportCommand extends Command implements TabExecutor {
                                 int ticketCount = supporterManager.getTicketCounter(uuid);
                                 player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Die durchschnitliche von " + args[1] +" ist Bewertung: §e" + rating + "§7/5"));
                                 player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7"+args[1]+" hat §e" + ticketCount + "§7 Tickets bearbeitet."));
-                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7"+args[1]+" war zuletzt activ am §e"+ lastActiviy.toString() + "§7."));
+                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7"+args[1]+" war zuletzt aktiv am §e"+ lastActiviy.toString() + "§7."));
                                 player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7"+args[1]+" ist §e" + (isLoggedIn ? "§aangemeldet" : "§cnicht angemeldet") + "§7."));
                             } else
                                 player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Dieser Spieler ist kein Supporter."));
@@ -294,7 +294,7 @@ public class SupportCommand extends Command implements TabExecutor {
                                 int ticketCount = supporterManager.getTicketCounter(player.getUniqueId().toString());
                                 player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Deine durchschnitliche Bewertung: §e" + rating + "§7/5"));
                                 player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Du hast §e" + ticketCount + "§7 Tickets bearbeitet."));
-                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Du warst zuletzt activ am §e"+ lastActiviy.toString() + "§7."));
+                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Du warst zuletzt aktiv am §e"+ lastActiviy.toString() + "§7."));
                                 player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Du bist §e" + (isLoggedIn ? "§aangemeldet" : "§cnicht angemeldet") + "§7."));
                             } else {
                                 player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Du bist §ckein Supporter§7."));
