@@ -15,7 +15,7 @@ public class PlayerLoginListener implements Listener {
         final ProxiedPlayer player = event.getPlayer();
         if (player.hasPermission("supportchat.supporter")) {
             if(!(manager.isSupporter(player.getUniqueId().toString()))) {
-                manager.insertSupporter(player.getUniqueId().toString(), 0,0, true);
+                manager.insertSupporter(player.getUniqueId().toString(),0, true);
             }
         }
     }

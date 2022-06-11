@@ -11,13 +11,13 @@ public class SupporterManager {
     private Connection connection = MySQL.getInstance().getConnection();
 
     //insert into supUUID, ratings, ticketCounter, lastActiviy into supporters
-    public void insertSupporter(String supUUID, int ratings, int ticketCounter, Boolean isLoggedIn) {
+    public void insertSupporter(String supUUID, int ticketCounter, Boolean isLoggedIn) {
         int isLoggedInInt = 0;
         if (isLoggedIn)
             isLoggedInInt = 1;
 
         try {
-            connection.prepareStatement("INSERT INTO supporters (supUUID, ratings, ticketCounter, isLoggedIn) VALUES ('" + supUUID + "',' " + ratings + "', '" + ticketCounter + "', '" +isLoggedInInt+"')").executeUpdate();
+            connection.prepareStatement("INSERT INTO supporters (supUUID, ratings, ticketCounter, isLoggedIn) VALUES ('" + supUUID + "','" + "" + "', '" + ticketCounter + "', '" +isLoggedInInt+"')").executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -107,10 +107,10 @@ public class SupporterManager {
             ResultSet resultSet = connection.prepareStatement("SELECT ratings FROM supporters WHERE supUUID = '" + supUUID + "'").executeQuery();
             if (resultSet.next()) {
                 String ratings = resultSet.getString("ratings");
-                if (ratings.equals("")) {
-                    ratings = rating + "";
+                if (ratings == "") {
+                    ratings = rating + ",";
                 } else {
-                    ratings += "," + rating;
+                    ratings += rating + ",";
                 }
                 connection.prepareStatement("UPDATE supporters SET ratings = '" + ratings + "' WHERE supUUID = '" + supUUID + "'").executeUpdate();
             }
@@ -138,15 +138,17 @@ public class SupporterManager {
             ResultSet resultSet = connection.prepareStatement("SELECT ratings FROM supporters WHERE supUUID = '" + supUUID + "'").executeQuery();
             if (resultSet.next()) {
                 String ratings = resultSet.getString("ratings");
-                if (ratings.equals("")) {
+                if (ratings == "") {
                     return 0;
                 } else {
                     String[] ratingsArray = ratings.split(",");
                     double sum = 0;
                     for (String rating : ratingsArray) {
-                        sum += Integer.parseInt(rating.replace(",", ""));
+                        if (rating != "") {
+                            sum += Integer.parseInt(rating.replace(",", ""));
+                        }
                     }
-                    return sum / ratingsArray.length;
+                    return sum / (ratingsArray.length);
                 }
             }
         } catch (Exception e) {
