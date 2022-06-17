@@ -7,10 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SupporterManager {
-    //Datenbank 1: supUUID, ratings, ticketCounter, lastActiviy
+
     private Connection connection = MySQL.getInstance().getConnection();
 
-    //insert into supUUID, ratings, ticketCounter, lastActiviy into supporters
     public void insertSupporter(String supUUID, int ticketCounter, Boolean isLoggedIn) {
         int isLoggedInInt = 0;
         if (isLoggedIn)
@@ -23,7 +22,6 @@ public class SupporterManager {
         }
     }
 
-    //update ratings, ticketCounter, lastAcctiviy into supporters
     public void updateSupporter(String supUUID, int ratings, int ticketCounter) {
         try {
             connection.prepareStatement("UPDATE supporters SET ratings = " + ratings + ", ticketCounter = " + ticketCounter + " WHERE supUUID = '" + supUUID + "'").executeUpdate();
@@ -32,7 +30,6 @@ public class SupporterManager {
         }
     }
 
-    //get ratings in arry
     public List<Integer> getRatings(String supUUID) {
         List<Integer> ratings = new ArrayList<>();
         try {
@@ -53,7 +50,6 @@ public class SupporterManager {
         return ratings;
     }
 
-    //check if supporter exists
     public boolean isSupporter(String supUUID) {
         try {
             ResultSet resultSet = connection.prepareStatement("SELECT * FROM supporters WHERE supUUID = '" + supUUID + "'").executeQuery();
@@ -66,7 +62,6 @@ public class SupporterManager {
         return false;
     }
 
-    //get ticketCounter
     public int getTicketCounter(String supUUID) {
         try {
             ResultSet resultSet = connection.prepareStatement("SELECT ticketCounter FROM supporters WHERE supUUID = '" + supUUID + "'").executeQuery();
@@ -79,7 +74,6 @@ public class SupporterManager {
         return 0;
     }
 
-    //get lastAcctiviy in timestamp
     public Timestamp getLastActivity(String supUUID) {
         try {
             ResultSet resultSet = connection.prepareStatement("SELECT `lastActivity` FROM supporters WHERE supUUID = '" + supUUID + "'").executeQuery();
@@ -92,7 +86,6 @@ public class SupporterManager {
         return null;
     }
 
-    //update lastActiviy
     public void updateLastActivity(String supUUID) {
         try {
             connection.prepareStatement("UPDATE supporters SET `lastActivity` = NOW() WHERE supUUID = '" + supUUID + "'").executeUpdate();
@@ -100,8 +93,6 @@ public class SupporterManager {
             e.printStackTrace();
         }
     }
-
-    //add rating to ratings
     public void addRating(String supUUID, int rating) {
         try {
             ResultSet resultSet = connection.prepareStatement("SELECT ratings FROM supporters WHERE supUUID = '" + supUUID + "'").executeQuery();
@@ -118,8 +109,6 @@ public class SupporterManager {
             e.printStackTrace();
         }
     }
-
-    //add ticketCounter
     public void addTicketCounter(String supUUID) {
         try {
             ResultSet resultSet = connection.prepareStatement("SELECT ticketCounter FROM supporters WHERE supUUID = '" + supUUID + "'").executeQuery();
@@ -131,8 +120,6 @@ public class SupporterManager {
             e.printStackTrace();
         }
     }
-
-    //get durchschnittliche rating from getRatings
     public double getAverageRating(String supUUID) {
         try {
             ResultSet resultSet = connection.prepareStatement("SELECT ratings FROM supporters WHERE supUUID = '" + supUUID + "'").executeQuery();
@@ -156,8 +143,6 @@ public class SupporterManager {
         }
         return 0;
     }
-
-    //check if supporter isLoggedIn
     public boolean isLoggedIn(String supUUID) {
         try {
             ResultSet resultSet = connection.prepareStatement("SELECT isLoggedIn FROM supporters WHERE supUUID = '" + supUUID + "'").executeQuery();
@@ -169,8 +154,6 @@ public class SupporterManager {
         }
         return false;
     }
-
-    //toggle isLoggedIn
     public void toggleIsLoggedIn(String supUUID) {
         try {
             ResultSet resultSet = connection.prepareStatement("SELECT isLoggedIn FROM supporters WHERE supUUID = '" + supUUID + "'").executeQuery();
