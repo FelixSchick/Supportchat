@@ -41,7 +41,7 @@ public class SupportCommand extends Command implements TabExecutor {
                     }
                     if (args[0].equalsIgnoreCase("German")) {
                         if (ticketManager.getTicketID(player.getUniqueId().toString(), TicketStatus.OPEN) == 0) {
-                            TextComponent main = new TextComponent(Supportchat.getInstance().prefix + "§7Der Spieler §e" + player.getDisplayName() + "§8[§e" + args[0] + "§8] §7benötigt hilfe.");
+                            TextComponent main = new TextComponent(Supportchat.getInstance().prefix + "§7Der Spieler §e" + player.getDisplayName() + " §8[§e" + args[0] + "§8] §7benötigt hilfe.");
                             main.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§7Klicke hier um das Ticket zu öffnen!").create()));
                             main.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/support join " + player.getName()));
                             for (ProxiedPlayer all : ProxyServer.getInstance().getPlayers()) {
@@ -56,7 +56,7 @@ public class SupportCommand extends Command implements TabExecutor {
                         }
                     } else if (args[0].equalsIgnoreCase("English")) {
                         if (ticketManager.getTicketID(player.getUniqueId().toString(), TicketStatus.OPEN) == 0) {
-                            TextComponent main = new TextComponent(Supportchat.getInstance().prefix + "§7Der Spieler §e" + player.getDisplayName() + "§8[§e" + args[0] + "§8] §7benötigt hilfe.");
+                            TextComponent main = new TextComponent(Supportchat.getInstance().prefix + "§7Der Spieler §e" + player.getDisplayName() + " §8[§e" + args[0] + "§8] §7benötigt hilfe.");
                             main.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§7Klicke hier um das Ticket zu öffnen!").create()));
                             main.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/support join " + player.getName()));
                             for (ProxiedPlayer all : ProxyServer.getInstance().getPlayers()) {
@@ -119,9 +119,9 @@ public class SupportCommand extends Command implements TabExecutor {
                                 if (UUIDManager.getUUID(args[1]) != null) {
                                     String uuid = UUIDManager.getUUID(args[1]).toString();
                                     if (ticketManager.getTicketID(uuid, TicketStatus.OPEN) != 0) {
-                                        String message = "";
+                                        StringBuilder message = new StringBuilder();
                                         for (int i = 2; i < args.length; i++) {
-                                            message = message + args[i] + " ";
+                                            message.append(args[i]).append(" ");
                                         }
                                         if (ProxyServer.getInstance().getPlayer(UUID.fromString(uuid)) != null) {
                                             ProxiedPlayer target = ProxyServer.getInstance().getPlayer(UUID.fromString(uuid));
@@ -248,7 +248,6 @@ public class SupportCommand extends Command implements TabExecutor {
                             TextComponent star5 = new TextComponent("§8[§6✫✫✫✫✫§8]");
                             star5.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§65 §7Sterne Bewertung").create()));
                             star5.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/support rate 5"));
-
 
                             main.addExtra(star1);
                             main.addExtra(star2);
