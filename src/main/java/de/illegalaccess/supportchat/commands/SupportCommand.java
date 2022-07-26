@@ -229,20 +229,26 @@ public class SupportCommand extends Command implements TabExecutor {
 
                             TextComponent main = new TextComponent(Supportchat.getInstance().prefix + "§7Du hast dein Ticket §cgeschlossen. \n §7Du kannst nun den Support bewerten (mit einem Click auf die Sterne):\n");
 
-                            TextComponent star1 = new TextComponent("§8[§6✫§8] ");
+                            TextComponent star1 = new TextComponent("§8[§6✩§8] ");
+                            star1.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§61 §7Stern Bewertung").create()));
                             star1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/support rate 1"));
 
                             TextComponent star2 = new TextComponent("§8[§6✫✫§8] ");
+                            star2.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§62 §7Sterne Bewertung").create()));
                             star2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/support rate 2"));
 
                             TextComponent star3 = new TextComponent("§8[§6✫✫✫§8] ");
+                            star3.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§63 §7Sterne Bewertung").create()));
                             star3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/support rate 3"));
 
                             TextComponent star4 = new TextComponent("§8[§6✫✫✫✫§8] ");
+                            star4.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§64 §7Sterne Bewertung").create()));
                             star4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/support rate 4"));
 
                             TextComponent star5 = new TextComponent("§8[§6✫✫✫✫✫§8]");
+                            star5.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§65 §7Sterne Bewertung").create()));
                             star5.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/support rate 5"));
+
 
                             main.addExtra(star1);
                             main.addExtra(star2);
