@@ -40,7 +40,7 @@ public class SupportCommand extends Command implements TabExecutor {
                         return;
                     }
                     if (args[0].equalsIgnoreCase("German")) {
-                        if(ticketManager.getTicketID(player.getUniqueId().toString(), TicketStatus.OPEN) == 0) {
+                        if (ticketManager.getTicketID(player.getUniqueId().toString(), TicketStatus.OPEN) == 0) {
                             TextComponent main = new TextComponent(Supportchat.getInstance().prefix + "§7Der Spieler §e" + player.getDisplayName() + "§8[§e" + args[0] + "§8] §7benötigt hilfe.");
                             main.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§7Klicke hier um das Ticket zu öffnen!").create()));
                             main.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/support join " + player.getName()));
@@ -55,7 +55,7 @@ public class SupportCommand extends Command implements TabExecutor {
                             player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Du hast ein neues Ticket erstellt."));
                         }
                     } else if (args[0].equalsIgnoreCase("English")) {
-                        if(ticketManager.getTicketID(player.getUniqueId().toString(), TicketStatus.OPEN) == 0) {
+                        if (ticketManager.getTicketID(player.getUniqueId().toString(), TicketStatus.OPEN) == 0) {
                             TextComponent main = new TextComponent(Supportchat.getInstance().prefix + "§7Der Spieler §e" + player.getDisplayName() + "§8[§e" + args[0] + "§8] §7benötigt hilfe.");
                             main.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§7Klicke hier um das Ticket zu öffnen!").create()));
                             main.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/support join " + player.getName()));
@@ -76,7 +76,7 @@ public class SupportCommand extends Command implements TabExecutor {
                             if (supporterManager.isLoggedIn(player.getUniqueId().toString())) {
                                 if (UUIDManager.getUUID(args[1]) != null) {
                                     String uuid = UUIDManager.getUUID(args[1]).toString();
-                                    if(ticketManager.getTicketID(uuid, TicketStatus.OPEN) != 0) {
+                                    if (ticketManager.getTicketID(uuid, TicketStatus.OPEN) != 0) {
                                         if (!(ticketManager.getSupUUIDs(ticketManager.getTicketID(uuid, TicketStatus.OPEN)).contains(player.getUniqueId()))) {
                                             ticketManager.addSups(ticketManager.getTicketID(uuid, TicketStatus.OPEN), player.getUniqueId().toString());
                                             supporterManager.addTicketCounter(player.getUniqueId().toString());
@@ -118,20 +118,20 @@ public class SupportCommand extends Command implements TabExecutor {
                             if (supporterManager.isLoggedIn(player.getUniqueId().toString())) {
                                 if (UUIDManager.getUUID(args[1]) != null) {
                                     String uuid = UUIDManager.getUUID(args[1]).toString();
-                                    if(ticketManager.getTicketID(uuid, TicketStatus.OPEN) != 0) {
+                                    if (ticketManager.getTicketID(uuid, TicketStatus.OPEN) != 0) {
                                         String message = "";
                                         for (int i = 2; i < args.length; i++) {
                                             message = message + args[i] + " ";
                                         }
-                                        if(ProxyServer.getInstance().getPlayer(UUID.fromString(uuid)) != null) {
+                                        if (ProxyServer.getInstance().getPlayer(UUID.fromString(uuid)) != null) {
                                             ProxiedPlayer target = ProxyServer.getInstance().getPlayer(UUID.fromString(uuid));
-                                            target.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7" + player.getDisplayName() + " §8» §7" + message));
+                                            target.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7" + player.getDisplayName() + "§8: §7" + message));
 
                                             for (UUID uuids : ticketManager.getSupUUIDs(ticketManager.getTicketID(uuid, TicketStatus.OPEN))) {
                                                 if (uuids != null) {
                                                     if (ProxyServer.getInstance().getPlayer(uuids) != null) {
                                                         ProxiedPlayer all = ProxyServer.getInstance().getPlayer(uuids);
-                                                        all.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§8[§e" + args[1] + "] §7" + player.getDisplayName() + " §8» §7" + message));
+                                                        all.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§e" + args[1] + " §8» " + player.getDisplayName() + "§8: §7" + message));
                                                     }
                                                 }
                                             }
@@ -153,28 +153,33 @@ public class SupportCommand extends Command implements TabExecutor {
                         if (supporterManager.isLoggedIn(player.getUniqueId().toString()) && supporterManager.isSupporter(player.getUniqueId().toString())) {
                             if (UUIDManager.getUUID(args[1]) != null) {
                                 String uuid = UUIDManager.getUUID(args[1]).toString();
-                                if(ticketManager.getTicketID(uuid, TicketStatus.OPEN) != 0) {
+                                if (ticketManager.getTicketID(uuid, TicketStatus.OPEN) != 0) {
                                     ticketManager.updateClosedDate(ticketManager.getTicketID(uuid, TicketStatus.OPEN));
                                     ticketManager.updateStatus(ticketManager.getTicketID(uuid, TicketStatus.OPEN), TicketStatus.CLOSED);
                                     player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Du hast das Ticket §e" + args[1] + " §7geschlossen."));
-                                    if(ProxyServer.getInstance().getPlayer(UUID.fromString(uuid)) != null) {
+                                    if (ProxyServer.getInstance().getPlayer(UUID.fromString(uuid)) != null) {
                                         ProxiedPlayer target = ProxyServer.getInstance().getPlayer(UUID.fromString(uuid));
                                         target.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Dein Ticket wurde von §e" + player.getDisplayName() + " §7geschlossen."));
                                         TextComponent main = new TextComponent(Supportchat.getInstance().prefix + "§8Du kannst nun den Support bewerten(mit einem Click auf die Sterne):\n");
 
-                                        TextComponent star1 = new TextComponent("§8[§e1✩§8] ");
+                                        TextComponent star1 = new TextComponent("§8[§6✩§8] ");
+                                        star1.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§61 §7Stern Bewertung").create()));
                                         star1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/support rate 1"));
 
-                                        TextComponent star2 = new TextComponent("§8[§e2✫§8] ");
+                                        TextComponent star2 = new TextComponent("§8[§6✫✫§8] ");
+                                        star2.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§62 §7Sterne Bewertung").create()));
                                         star2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/support rate 2"));
 
-                                        TextComponent star3 = new TextComponent("§8[§e3✫§8] ");
+                                        TextComponent star3 = new TextComponent("§8[§6✫✫✫§8] ");
+                                        star3.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§63 §7Sterne Bewertung").create()));
                                         star3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/support rate 3"));
 
-                                        TextComponent star4 = new TextComponent("§8[§e4✫§8] ");
+                                        TextComponent star4 = new TextComponent("§8[§6✫✫✫✫§8] ");
+                                        star4.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§64 §7Sterne Bewertung").create()));
                                         star4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/support rate 4"));
 
-                                        TextComponent star5 = new TextComponent("§8[§e5✫§8]");
+                                        TextComponent star5 = new TextComponent("§8[§6✫✫✫✫✫§8]");
+                                        star5.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§65 §7Sterne Bewertung").create()));
                                         star5.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/support rate 5"));
 
                                         main.addExtra(star1);
@@ -184,58 +189,59 @@ public class SupportCommand extends Command implements TabExecutor {
                                         main.addExtra(star5);
                                         target.sendMessage(main);
                                     }
-                                    if (!(ticketManager.getSupUUIDs(ticketManager.getTicketID(uuid, TicketStatus.CLOSED)).toArray().length == 0)){
+                                    if (!(ticketManager.getSupUUIDs(ticketManager.getTicketID(uuid, TicketStatus.CLOSED)).toArray().length == 0)) {
                                         for (UUID uuids : ticketManager.getSupUUIDs(ticketManager.getTicketID(uuid, TicketStatus.CLOSED))) {
                                             if (uuids != null) {
                                                 if (ProxyServer.getInstance().getPlayer(uuids) != null) {
                                                     ProxiedPlayer all = ProxyServer.getInstance().getPlayer(uuids);
                                                     supporterManager.updateLastActivity(uuids.toString());
-                                                    all.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§8[" + args[1] + "] Das Ticket wurde von §e"+player.getName()+" §7geschlossen."));
+                                                    all.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§8[§e" + args[1] + "§8] §7Das Ticket wurde von §e" + player.getName() + " §7geschlossen."));
                                                 }
                                             }
                                         }
                                     }
                                 } else {
-                                    player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Das Ticket wurde bereits §7geschlossen."));
+                                    player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Das Ticket wurde §cbereits §7geschlossen."));
                                 }
-                            } else
+                            } else{
                                 player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Das Ticket wurde nicht gefunden."));
-                        } else
-                            player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Du bist entweder kein Support oder du bist nicht eingeloggt."));
+                            }
+                        } else {
+                            player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Du bist entweder kein Teammitglied oder du bist §causgeloggt."));
+                        }
                     } else {
-                        String uuid = player.getUniqueId().toString();
-                        if(ticketManager.getTicketID(uuid, TicketStatus.OPEN) != 0) {
+                        final String uuid = player.getUniqueId().toString();
+                        if (ticketManager.getTicketID(uuid, TicketStatus.OPEN) != 0) {
                             ticketManager.updateClosedDate(ticketManager.getTicketID(uuid, TicketStatus.OPEN));
                             ticketManager.updateStatus(ticketManager.getTicketID(uuid, TicketStatus.OPEN), TicketStatus.CLOSED);
 
-
-                            if (!(ticketManager.getSupUUIDs(ticketManager.getTicketID(uuid, TicketStatus.CLOSED)).toArray().length == 0)){
+                            if (!(ticketManager.getSupUUIDs(ticketManager.getTicketID(uuid, TicketStatus.CLOSED)).toArray().length == 0)) {
                                 for (UUID uuids : ticketManager.getSupUUIDs(ticketManager.getTicketID(uuid, TicketStatus.CLOSED))) {
                                     if (uuids != null) {
                                         if (ProxyServer.getInstance().getPlayer(uuids) != null) {
                                             ProxiedPlayer all = ProxyServer.getInstance().getPlayer(uuids);
                                             supporterManager.updateLastActivity(uuids.toString());
-                                            all.sendMessage(Supportchat.getInstance().prefix + "§8[" + player.getName() + "] Das Ticket wurde von §e"+player.getName()+" §7geschlossen.");
+                                            all.sendMessage(Supportchat.getInstance().prefix + "§8[§e" + player.getName() + "§8] §7Das Ticket wurde von §e" + player.getName() + " §7geschlossen.");
                                         }
                                     }
                                 }
                             }
 
-                            TextComponent main = new TextComponent(Supportchat.getInstance().prefix + "§7Du hast dein Ticket §7geschlossen. \n §8Du kannst nun den Support bewerten(mit einem Click auf die Sterne):\n");
+                            TextComponent main = new TextComponent(Supportchat.getInstance().prefix + "§7Du hast dein Ticket §cgeschlossen. \n §7Du kannst nun den Support bewerten (mit einem Click auf die Sterne):\n");
 
-                            TextComponent star1 = new TextComponent("§8[§e1✫§8] ");
+                            TextComponent star1 = new TextComponent("§8[§6✫§8] ");
                             star1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/support rate 1"));
 
-                            TextComponent star2 = new TextComponent("§8[§e2✫§8] ");
+                            TextComponent star2 = new TextComponent("§8[§6✫✫§8] ");
                             star2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/support rate 2"));
 
-                            TextComponent star3 = new TextComponent("§8[§e3✫§8] ");
+                            TextComponent star3 = new TextComponent("§8[§6✫✫✫§8] ");
                             star3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/support rate 3"));
 
-                            TextComponent star4 = new TextComponent("§8[§e4✫§8] ");
+                            TextComponent star4 = new TextComponent("§8[§6✫✫✫✫§8] ");
                             star4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/support rate 4"));
 
-                            TextComponent star5 = new TextComponent("§8[§e5✫§8]");
+                            TextComponent star5 = new TextComponent("§8[§6✫✫✫✫✫§8]");
                             star5.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/support rate 5"));
 
                             main.addExtra(star1);
@@ -251,7 +257,7 @@ public class SupportCommand extends Command implements TabExecutor {
                 } else if (args[0].equalsIgnoreCase("rate")) {
                     if (args.length == 2) {
                         if (ticketManager.getTicketID(player.getUniqueId().toString(), TicketStatus.CLOSED) != 0) {
-                            if (!(ticketManager.getSupUUIDs(ticketManager.getTicketID(player.getUniqueId().toString(), TicketStatus.CLOSED)).toArray().length == 0)){
+                            if (!(ticketManager.getSupUUIDs(ticketManager.getTicketID(player.getUniqueId().toString(), TicketStatus.CLOSED)).toArray().length == 0)) {
                                 for (UUID uuids : ticketManager.getSupUUIDs(ticketManager.getTicketID(player.getUniqueId().toString(), TicketStatus.CLOSED))) {
                                     if (uuids != null) {
                                         supporterManager.addRating(uuids.toString(), Integer.parseInt(args[1]));
@@ -275,10 +281,10 @@ public class SupportCommand extends Command implements TabExecutor {
                                 Timestamp lastActiviy = supporterManager.getLastActivity(uuid);
                                 Boolean isLoggedIn = supporterManager.isLoggedIn(uuid);
                                 int ticketCount = supporterManager.getTicketCounter(uuid);
-                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Die durchschnitliche von " + args[1] +" ist Bewertung: §e" + rating + "§7/5§e1✫"));
-                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7"+args[1]+" hat §e" + ticketCount + "§7 Tickets bearbeitet."));
-                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7"+args[1]+" war zuletzt aktiv am §e"+ lastActiviy.toString() + "§7."));
-                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7"+args[1]+" ist §e" + (isLoggedIn ? "§aangemeldet" : "§cnicht angemeldet") + "§7."));
+                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Die durchschnittliche von " + args[1] + " ist Bewertung: §e" + rating + "§7/5"));
+                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7" + args[1] + " hat §e" + ticketCount + "§7 Tickets bearbeitet."));
+                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7" + args[1] + " war zuletzt aktiv am §e" + lastActiviy.toString() + "§7."));
+                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7" + args[1] + " ist §e" + (isLoggedIn ? "§aangemeldet" : "§cnicht angemeldet") + "§7."));
                             } else
                                 player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Dieser Spieler ist kein Supporter."));
                         } else
@@ -290,9 +296,9 @@ public class SupportCommand extends Command implements TabExecutor {
                                 Timestamp lastActiviy = supporterManager.getLastActivity(player.getUniqueId().toString());
                                 Boolean isLoggedIn = supporterManager.isLoggedIn(player.getUniqueId().toString());
                                 int ticketCount = supporterManager.getTicketCounter(player.getUniqueId().toString());
-                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Deine durchschnitliche Bewertung: §e" + rating + "§7/5§e1✫"));
+                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Deine durchschnittliche Bewertung: §e" + rating + "§7/5"));
                                 player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Du hast §e" + ticketCount + "§7 Tickets bearbeitet."));
-                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Du warst zuletzt aktiv am §e"+ lastActiviy.toString() + "§7."));
+                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Du warst zuletzt aktiv am §e" + lastActiviy.toString() + "§7."));
                                 player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Du bist §e" + (isLoggedIn ? "§aangemeldet" : "§cnicht angemeldet") + "§7."));
                             } else {
                                 player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Du bist §ckein Supporter§7."));
@@ -333,7 +339,7 @@ public class SupportCommand extends Command implements TabExecutor {
                 } else if (args[0].equalsIgnoreCase("history")) {
                     if (player.hasPermission("supportchat.history")) {
                         if (args.length == 2) {
-                            if (ProxyServer.getInstance().getPlayer(args[1])!= null) {
+                            if (ProxyServer.getInstance().getPlayer(args[1]) != null) {
                                 ProxiedPlayer target = ProxyServer.getInstance().getPlayer(args[1]);
                                 if (ticketManager.getTickets(player.getUniqueId().toString()).isEmpty())
                                     player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Der Spieler hat kein Ticket"));
@@ -349,7 +355,7 @@ public class SupportCommand extends Command implements TabExecutor {
                                     player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Geschlossen am: §e" + closedDate));
                                     player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Supporter: §e"));
                                     for (UUID supUUID : ticketManager.getSupUUIDs(ticketID)) {
-                                        player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7           -§e" + UUIDManager.getName(supUUID)));
+                                        player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "\t§8- §e" + UUIDManager.getName(supUUID)));
                                     }
                                     player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Status: §e" + status.toString()));
                                     player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + " "));
@@ -365,15 +371,15 @@ public class SupportCommand extends Command implements TabExecutor {
                     if (player.hasPermission("supportchat.notify")) {
                         if (supporterManager.isSupporter(player.getUniqueId().toString())) {
                             if (supporterManager.isLoggedIn(player.getUniqueId().toString())) {
-                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Du hast dich erfolgreich §eausgelogt."));
+                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Du hast dich erfolgreich §causgelogt."));
                                 supporterManager.toggleIsLoggedIn(player.getUniqueId().toString());
                             } else {
-                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Du hast dich erfolgreich §eeingelogt."));
+                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Du hast dich erfolgreich §aeingelogt."));
                                 supporterManager.toggleIsLoggedIn(player.getUniqueId().toString());
                             }
                         } else
-                            player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§cDu bist kein Supporter."));
-                    }else
+                            player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§cDu bist kein Teammitglied."));
+                    } else
                         player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§cDazu hast du keine Rechte."));
                 } else {
 

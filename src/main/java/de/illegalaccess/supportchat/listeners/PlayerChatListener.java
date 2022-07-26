@@ -23,13 +23,13 @@ public class PlayerChatListener implements Listener {
             if (ticketManager.getTicketID(player.getUniqueId().toString(), TicketStatus.OPEN) != 0) {
                 if (!(event.getMessage().startsWith("/"))) {
                     event.setCancelled(true);
-                    player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7" + player.getDisplayName() + " §8» §7" + event.getMessage()));
+                    player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7" + player.getDisplayName() + "§8: §7" + event.getMessage()));
 
                     for (UUID uuids : ticketManager.getSupUUIDs(ticketManager.getTicketID(player.getUniqueId().toString(), TicketStatus.OPEN))) {
                         if (uuids != null) {
                             if (ProxyServer.getInstance().getPlayer(uuids) != null) {
                                 ProxiedPlayer all = ProxyServer.getInstance().getPlayer(uuids);
-                                all.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§8[" + player.getName() + "] §7" + player.getDisplayName() + " §8» §7" + event.getMessage()));
+                                all.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§e" + player.getName() + " §8» " + player.getDisplayName() + "§8: §7" + event.getMessage()));
                             }
                         }
                     }

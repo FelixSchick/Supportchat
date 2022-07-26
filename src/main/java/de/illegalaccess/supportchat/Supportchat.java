@@ -19,20 +19,21 @@ import java.nio.file.Files;
 public final class Supportchat extends Plugin {
 
     private static Supportchat instance;
+    private Configuration config;
 
-    public String prefix = "§8[§6Support§8] §7";
+    public final String prefix = "§8[§9Support§8] §7";
 
-    public  Configuration config;
-    {
+    public Configuration getConfig() {
+        return config;
+    }
+
+    @Override
+    public void onLoad() {
         try {
             config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(getDataFolder(), "config.yml"));
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-    }
-
-    public Configuration getConfig() {
-        return config;
     }
 
     @Override
@@ -47,7 +48,6 @@ public final class Supportchat extends Plugin {
         ProxyServer.getInstance().getPluginManager().registerListener(this, new PlayerChatListener());
         ProxyServer.getInstance().getPluginManager().registerListener(this, new PlayerLoginListener());
         ProxyServer.getInstance().getPluginManager().registerListener(this, new PlayerQuitListener());
-
     }
 
     @Override
