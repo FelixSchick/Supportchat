@@ -84,24 +84,24 @@ public class SupportCommand extends Command implements TabExecutor {
                                             if (ticketManager.getLanguage(ticketManager.getTicketID(uuid, TicketStatus.OPEN)) == TicketLanguage.GERMAN) {
                                                 for (UUID sup : ticketManager.getSupUUIDs(ticketManager.getTicketID(uuid, TicketStatus.OPEN))) {
                                                     ProxiedPlayer supPlayer = ProxyServer.getInstance().getPlayer(sup);
-                                                    supPlayer.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§8[§e" + args[1] + "§8] §e" + player.getDisplayName() + " §8» §7 §7Herzlich willkommen im offiziellen Support von BraveMC.de wie kann ich dir weiterhelfen?"));
+                                                    supPlayer.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§e" + args[1] + "§8» §e" + player.getDisplayName() + "§8: §7 §7Herzlich willkommen im offiziellen Support von BraveMC.de wie kann ich dir weiterhelfen?"));
                                                 }
                                                 if (ProxyServer.getInstance().getPlayer(UUID.fromString(uuid)) != null) {
                                                     ProxiedPlayer target = ProxyServer.getInstance().getPlayer(UUID.fromString(uuid));
-                                                    target.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§8[§e" + args[1] + "§8] §e" + player.getDisplayName() + " §8» §7 §7Herzlich willkommen im offiziellen Support von BraveMC.de wie kann ich dir weiterhelfen?"));
+                                                    target.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§e" + args[1] + "§8» §e" + player.getDisplayName() + "§8: §7 §7Herzlich willkommen im offiziellen Support von BraveMC.de wie kann ich dir weiterhelfen?"));
                                                 }
                                             } else {
                                                 for (UUID sup : ticketManager.getSupUUIDs(ticketManager.getTicketID(uuid, TicketStatus.OPEN))) {
                                                     ProxiedPlayer supPlayer = ProxyServer.getInstance().getPlayer(sup);
-                                                    supPlayer.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§8[§e" + args[1] + "§8] §e" + player.getDisplayName() + " §8» §7 §7Welcome to the official support of BraveMC.de how can I help you?"));
+                                                    supPlayer.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§e" + args[1] + "§8» §e" + player.getDisplayName() + "§8: §7 §7Welcome to the official support of BraveMC.de how can I help you?"));
                                                 }
                                                 if (ProxyServer.getInstance().getPlayer(UUID.fromString(uuid)) != null) {
                                                     ProxiedPlayer target = ProxyServer.getInstance().getPlayer(UUID.fromString(uuid));
-                                                    target.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§8[§e" + args[1] + "§8] §e" + player.getDisplayName() + " §8» §7 §7Welcome to the official support of BraveMC.de how can I help you?"));
+                                                    target.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§e" + args[1] + "§8» §e" + player.getDisplayName() + "§8: §7 §7Welcome to the official support of BraveMC.de how can I help you?"));
                                                 }
                                             }
                                         } else
-                                            player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Du bist bereits dem Ticket beigetretten."));
+                                            player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Du bist bereits dem Ticket beigetreten."));
                                     } else
                                         player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Das Ticket wurde bereits geschlossen."));
                                 } else
