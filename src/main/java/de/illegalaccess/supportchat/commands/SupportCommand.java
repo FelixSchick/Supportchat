@@ -163,7 +163,7 @@ public class SupportCommand extends Command implements TabExecutor {
                                     if (ProxyServer.getInstance().getPlayer(UUID.fromString(uuid)) != null) {
                                         ProxiedPlayer target = ProxyServer.getInstance().getPlayer(UUID.fromString(uuid));
                                         target.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Dein Ticket wurde von §e" + player.getDisplayName() + " §7geschlossen."));
-                                        TextComponent main = new TextComponent(Supportchat.getInstance().prefix + "§8Du kannst nun den Support bewerten(mit einem Click auf die Sterne):\n");
+                                        TextComponent main = new TextComponent(Supportchat.getInstance().prefix + "§8Du kannst nun den Support bewerten(mit einem Klick auf die Sterne):\n");
 
                                         TextComponent star1 = new TextComponent("§8[§6✩§8] ");
                                         star1.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§61 §7Stern Bewertung").create()));
@@ -230,7 +230,7 @@ public class SupportCommand extends Command implements TabExecutor {
                                 }
                             }
 
-                            TextComponent main = new TextComponent(Supportchat.getInstance().prefix + "§7Du hast dein Ticket §cgeschlossen. \n §7Du kannst nun den Support bewerten (mit einem Click auf die Sterne):\n");
+                            TextComponent main = new TextComponent(Supportchat.getInstance().prefix + "§7Du hast dein Ticket §cgeschlossen. \n §7Du kannst nun den Support bewerten (mit einem Klick auf die Sterne):\n");
 
                             TextComponent star1 = new TextComponent("§8[§6✩§8] ");
                             star1.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§61 §7Stern Bewertung").create()));
