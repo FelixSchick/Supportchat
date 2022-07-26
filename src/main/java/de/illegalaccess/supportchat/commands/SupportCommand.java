@@ -17,7 +17,10 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.TabExecutor;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.UUID;
 
@@ -84,20 +87,20 @@ public class SupportCommand extends Command implements TabExecutor {
                                             if (ticketManager.getLanguage(ticketManager.getTicketID(uuid, TicketStatus.OPEN)) == TicketLanguage.GERMAN) {
                                                 for (UUID sup : ticketManager.getSupUUIDs(ticketManager.getTicketID(uuid, TicketStatus.OPEN))) {
                                                     ProxiedPlayer supPlayer = ProxyServer.getInstance().getPlayer(sup);
-                                                    supPlayer.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§e" + args[1] + "§8» §e" + player.getDisplayName() + "§8: §7Herzlich willkommen im offiziellen Support von BraveMC.de wie kann ich dir weiterhelfen?"));
+                                                    supPlayer.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§e" + args[1] + " §8» §e" + player.getDisplayName() + "§8: §7Herzlich willkommen im offiziellen Support von BraveMC.de wie kann ich dir weiterhelfen?"));
                                                 }
                                                 if (ProxyServer.getInstance().getPlayer(UUID.fromString(uuid)) != null) {
                                                     ProxiedPlayer target = ProxyServer.getInstance().getPlayer(UUID.fromString(uuid));
-                                                    target.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§e" + args[1] + "§8» §e" + player.getDisplayName() + "§8: §7Herzlich willkommen im offiziellen Support von BraveMC.de wie kann ich dir weiterhelfen?"));
+                                                    target.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§e" + args[1] + " §8» §e" + player.getDisplayName() + "§8: §7Herzlich willkommen im offiziellen Support von BraveMC.de wie kann ich dir weiterhelfen?"));
                                                 }
                                             } else {
                                                 for (UUID sup : ticketManager.getSupUUIDs(ticketManager.getTicketID(uuid, TicketStatus.OPEN))) {
                                                     ProxiedPlayer supPlayer = ProxyServer.getInstance().getPlayer(sup);
-                                                    supPlayer.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§e" + args[1] + "§8» §e" + player.getDisplayName() + "§8: §7Welcome to the official support of BraveMC.de how can I help you?"));
+                                                    supPlayer.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§e" + args[1] + " §8» §e" + player.getDisplayName() + "§8: §7Welcome to the official support of BraveMC.de how can I help you?"));
                                                 }
                                                 if (ProxyServer.getInstance().getPlayer(UUID.fromString(uuid)) != null) {
                                                     ProxiedPlayer target = ProxyServer.getInstance().getPlayer(UUID.fromString(uuid));
-                                                    target.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§e" + args[1] + "§8» §e" + player.getDisplayName() + "§8: §7Welcome to the official support of BraveMC.de how can I help you?"));
+                                                    target.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§e" + args[1] + " §8» §e" + player.getDisplayName() + "§8: §7Welcome to the official support of BraveMC.de how can I help you?"));
                                                 }
                                             }
                                         } else
@@ -282,13 +285,14 @@ public class SupportCommand extends Command implements TabExecutor {
                         if (player.hasPermission("supportchat.stats.others")) {
                             String uuid = UUIDManager.getUUID(args[1]).toString();
                             if (supporterManager.isSupporter(uuid)) {
-                                Double rating = supporterManager.getAverageRating(uuid);
+                                double rating = supporterManager.getAverageRating(uuid);
+
                                 Timestamp lastActiviy = supporterManager.getLastActivity(uuid);
-                                Boolean isLoggedIn = supporterManager.isLoggedIn(uuid);
+                                boolean isLoggedIn = supporterManager.isLoggedIn(uuid);
                                 int ticketCount = supporterManager.getTicketCounter(uuid);
-                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Die durchschnittliche von " + args[1] + " ist Bewertung: §e" + rating + "§7/5"));
+                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Die durchschnittliche von " + args[1] + " ist Bewertung: §e" + new BigDecimal(rating).setScale(2, RoundingMode.HALF_UP).floatValue() + "§7/5"));
                                 player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7" + args[1] + " hat §e" + ticketCount + "§7 Tickets bearbeitet."));
-                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7" + args[1] + " war zuletzt aktiv am §e" + lastActiviy.toString() + "§7."));
+                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7" + args[1] + " war zuletzt aktiv am §e" + new SimpleDateFormat("dd.MM.yyyy - HH:mm:ss").format(lastActiviy.toInstant().toEpochMilli()) + "§7."));
                                 player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7" + args[1] + " ist §e" + (isLoggedIn ? "§aangemeldet" : "§cnicht angemeldet") + "§7."));
                             } else
                                 player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Dieser Spieler ist kein Supporter."));
@@ -301,9 +305,9 @@ public class SupportCommand extends Command implements TabExecutor {
                                 Timestamp lastActiviy = supporterManager.getLastActivity(player.getUniqueId().toString());
                                 Boolean isLoggedIn = supporterManager.isLoggedIn(player.getUniqueId().toString());
                                 int ticketCount = supporterManager.getTicketCounter(player.getUniqueId().toString());
-                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Deine durchschnittliche Bewertung: §e" + rating + "§7/5"));
+                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Deine durchschnittliche Bewertung: §e" + new BigDecimal(rating).setScale(2, RoundingMode.HALF_UP).floatValue() + "§7/5"));
                                 player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Du hast §e" + ticketCount + "§7 Tickets bearbeitet."));
-                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Du warst zuletzt aktiv am §e" + lastActiviy.toString() + "§7."));
+                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Du warst zuletzt aktiv am §e" + new SimpleDateFormat("dd.MM.yyyy - HH:mm:ss").format(lastActiviy.toInstant().toEpochMilli()) + "§7."));
                                 player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Du bist §e" + (isLoggedIn ? "§aangemeldet" : "§cnicht angemeldet") + "§7."));
                             } else {
                                 player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().prefix + "§7Du bist §ckein Supporter§7."));
