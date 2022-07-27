@@ -1,6 +1,8 @@
 package de.illegalaccess.supportchat.listeners;
 
+import de.illegalaccess.supportchat.Supportchat;
 import de.illegalaccess.supportchat.mysql.SupporterManager;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PostLoginEvent;
 import net.md_5.bungee.api.plugin.Listener;
@@ -17,6 +19,8 @@ public class PlayerLoginListener implements Listener {
             if(!(manager.isSupporter(player.getUniqueId().toString()))) {
                 manager.insertSupporter(player.getUniqueId().toString(),0, true);
             }
+            final boolean loggedIn = manager.isLoggedIn(player.getUniqueId().toString());
+            player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7Status§8: " + (loggedIn ? "§aeingeloggt" : "§causgeloggt")));
         }
     }
 }

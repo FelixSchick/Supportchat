@@ -21,7 +21,11 @@ public final class Supportchat extends Plugin {
     private static Supportchat instance;
     private Configuration config;
 
-    public final String prefix = "§8[§9Support§8] §7";
+    private final String prefix = "§8[§9Support§8] §7";
+
+    public String getPrefix() {
+        return prefix;
+    }
 
     public Configuration getConfig() {
         return config;
