@@ -350,7 +350,7 @@ public class SupportCommand extends Command implements TabExecutor {
                         if (args.length == 2) {
                             if (ProxyServer.getInstance().getPlayer(args[1]) != null) {
                                 ProxiedPlayer target = ProxyServer.getInstance().getPlayer(args[1]);
-                                if (ticketManager.getTickets(player.getUniqueId().toString()).isEmpty())
+                                if (ticketManager.getTickets(target.getUniqueId().toString()).isEmpty())
                                     player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7Der Spieler hat kein Ticket"));
                                 for (int ticketID : ticketManager.getTickets(target.getUniqueId().toString())) {
                                     String userUUID = ticketManager.getUserUUID(ticketID);
@@ -370,6 +370,30 @@ public class SupportCommand extends Command implements TabExecutor {
                                     player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + " "));
                                 }
 
+                            } else {
+                                if (UUIDManager.getUUID(args[1]) != null) {
+                                    if (ticketManager.getTickets(UUIDManager.getUUID(args[1]).toString()).isEmpty())
+                                        player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7Der Spieler hat kein Ticket"));
+                                    for (int ticketID : ticketManager.getTickets(UUIDManager.getUUID(args[1]).toString())) {
+                                        String userUUID = ticketManager.getUserUUID(ticketID);
+                                        Timestamp creatingDate = ticketManager.getCreatingDate(ticketID);
+                                        Timestamp closedDate = ticketManager.getClosedDate(ticketID);
+                                        TicketStatus status = ticketManager.getStatus(ticketID);
+
+                                        player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7Ticket-ID: §e" + ticketID));
+                                        player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7Spieler: §e" + UUIDManager.getName(UUID.fromString(userUUID))));
+                                        player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7Erstellt am: §e" + creatingDate));
+                                        player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7Geschlossen am: §e" + closedDate));
+                                        player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7Supporter: §e"));
+                                        for (UUID supUUID : ticketManager.getSupUUIDs(ticketID)) {
+                                            player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "\t§8- §e" + UUIDManager.getName(supUUID)));
+                                        }
+                                        player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7Status: §e" + status.toString()));
+                                        player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + " "));
+                                    }
+                                } else {
+                                    player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7Dieser Spieler existiert nicht."));
+                                }
                             }
 
                         } else
