@@ -283,19 +283,23 @@ public class SupportCommand extends Command implements TabExecutor {
                 } else if (args[0].equalsIgnoreCase("stats")) {
                     if (args.length == 2) {
                         if (player.hasPermission("supportchat.stats.others")) {
-                            String uuid = UUIDManager.getUUID(args[1]).toString();
-                            if (supporterManager.isSupporter(uuid)) {
-                                double rating = supporterManager.getAverageRating(uuid);
+                            if (UUIDManager.getUUID(args[1]) != null) {
+                                String uuid = UUIDManager.getUUID(args[1]).toString();
+                                if (supporterManager.isSupporter(uuid)) {
+                                    double rating = supporterManager.getAverageRating(uuid);
 
-                                Timestamp lastActiviy = supporterManager.getLastActivity(uuid);
-                                boolean isLoggedIn = supporterManager.isLoggedIn(uuid);
-                                int ticketCount = supporterManager.getTicketCounter(uuid);
-                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7Die durchschnittliche von " + args[1] + " ist Bewertung: §e" + new BigDecimal(rating).setScale(2, RoundingMode.HALF_UP).floatValue() + "§7/5"));
-                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7" + args[1] + " hat §e" + ticketCount + "§7 Tickets bearbeitet."));
-                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7" + args[1] + " war zuletzt aktiv am §e" + new SimpleDateFormat("dd.MM.yyyy - HH:mm:ss").format(lastActiviy.toInstant().toEpochMilli()) + "§7."));
-                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7" + args[1] + " ist §e" + (isLoggedIn ? "§aangemeldet" : "§cnicht angemeldet") + "§7."));
-                            } else
-                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7Dieser Spieler ist kein Supporter."));
+                                    Timestamp lastActiviy = supporterManager.getLastActivity(uuid);
+                                    boolean isLoggedIn = supporterManager.isLoggedIn(uuid);
+                                    int ticketCount = supporterManager.getTicketCounter(uuid);
+                                    player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7Die durchschnittliche von " + args[1] + " ist Bewertung: §e" + new BigDecimal(rating).setScale(2, RoundingMode.HALF_UP).floatValue() + "§7/5"));
+                                    player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7" + args[1] + " hat §e" + ticketCount + "§7 Tickets bearbeitet."));
+                                    player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7" + args[1] + " war zuletzt aktiv am §e" + new SimpleDateFormat("dd.MM.yyyy - HH:mm:ss").format(lastActiviy.toInstant().toEpochMilli()) + "§7."));
+                                    player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7" + args[1] + " ist §e" + (isLoggedIn ? "§aangemeldet" : "§cnicht angemeldet") + "§7."));
+                                } else
+                                    player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7Dieser Spieler ist kein Supporter."));
+                            } else {
+                                player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7Dieser Spieler existiert nicht."));
+                            }
                         } else
                             player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7Du hast keine Rechte."));
                     } else {
