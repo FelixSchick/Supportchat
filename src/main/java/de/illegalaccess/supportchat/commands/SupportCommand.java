@@ -224,7 +224,7 @@ public class SupportCommand extends Command implements TabExecutor {
                                         if (ProxyServer.getInstance().getPlayer(uuids) != null) {
                                             ProxiedPlayer all = ProxyServer.getInstance().getPlayer(uuids);
                                             supporterManager.updateLastActivity(uuids.toString());
-                                            all.sendMessage(Supportchat.getInstance().getPrefix() + "§8[§e" + player.getName() + "§8] §7Das Ticket wurde von §e" + player.getName() + " §7geschlossen.");
+                                            all.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§8[§e" + player.getName() + "§8] §7Das Ticket wurde von §e" + player.getName() + " §7geschlossen."));
                                         }
                                     }
                                 }
@@ -301,9 +301,9 @@ public class SupportCommand extends Command implements TabExecutor {
                     } else {
                         if (player.hasPermission("supportchat.stats.self")) {
                             if (supporterManager.isSupporter(player.getUniqueId().toString())) {
-                                Double rating = supporterManager.getAverageRating(player.getUniqueId().toString());
+                                double rating = supporterManager.getAverageRating(player.getUniqueId().toString());
                                 Timestamp lastActiviy = supporterManager.getLastActivity(player.getUniqueId().toString());
-                                Boolean isLoggedIn = supporterManager.isLoggedIn(player.getUniqueId().toString());
+                                boolean isLoggedIn = supporterManager.isLoggedIn(player.getUniqueId().toString());
                                 int ticketCount = supporterManager.getTicketCounter(player.getUniqueId().toString());
                                 player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7Deine durchschnittliche Bewertung: §e" + new BigDecimal(rating).setScale(2, RoundingMode.HALF_UP).floatValue() + "§7/5"));
                                 player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7Du hast §e" + ticketCount + "§7 Tickets bearbeitet."));
@@ -391,7 +391,7 @@ public class SupportCommand extends Command implements TabExecutor {
                     } else
                         player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§cDazu hast du keine Rechte."));
                 } else {
-
+                    player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§cNutze /support <close, history, notify, send, join, stats, move> [<Nachricht/Spielername>]"));
                 }
 
             } else {
