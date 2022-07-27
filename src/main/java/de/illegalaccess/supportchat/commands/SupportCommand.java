@@ -106,7 +106,7 @@ public class SupportCommand extends Command implements TabExecutor {
                                         } else
                                             player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7Du bist bereits dem Ticket beigetreten."));
                                     } else
-                                        player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7Das Ticket wurde bereits geschlossen."));
+                                        player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7Dieser Spieler ist in keinem Supportchat."));
                                 } else
                                     player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7Der Spieler §e" + args[1] + "§8 konnte nicht gefunden werden."));
                             } else
@@ -204,7 +204,7 @@ public class SupportCommand extends Command implements TabExecutor {
                                         }
                                     }
                                 } else {
-                                    player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7Das Ticket wurde §cbereits §7geschlossen."));
+                                    player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7Dieser Spieler ist in keinem Supportchat."));
                                 }
                             } else{
                                 player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7Das Ticket wurde nicht gefunden."));
