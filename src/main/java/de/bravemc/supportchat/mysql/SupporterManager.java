@@ -1,22 +1,23 @@
 package de.bravemc.supportchat.mysql;
 
+import com.google.common.collect.Lists;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SupporterManager {
 
     private Connection connection = MySQL.getInstance().getConnection();
 
-    public void insertSupporter(String supUUID, int ticketCounter, Boolean isLoggedIn) {
+    public void insertSupporter(String supUUID, int ticketCounter, boolean isLoggedIn) {
         int isLoggedInInt = 0;
         if (isLoggedIn)
             isLoggedInInt = 1;
 
         try {
-            connection.prepareStatement("INSERT INTO supporters (supUUID, ratings, ticketCounter, isLoggedIn) VALUES ('" + supUUID + "','" + "" + "', '" + ticketCounter + "', '" +isLoggedInInt+"')").executeUpdate();
+            connection.prepareStatement("INSERT INTO supporters (supUUID, ratings, ticketCounter, isLoggedIn) VALUES ('" + supUUID + "','" + "" + "', '" + ticketCounter + "', '" + isLoggedInInt + "')").executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -31,7 +32,7 @@ public class SupporterManager {
     }
 
     public List<Integer> getRatings(String supUUID) {
-        List<Integer> ratings = new ArrayList<>();
+        List<Integer> ratings = Lists.newArrayList();
         try {
             ResultSet resultSet = connection.prepareStatement("SELECT ratings, ticketCounter, lastAcctiviy FROM supporters WHERE supUUID = '" + supUUID + "'").executeQuery();
             if (resultSet.next()) {
@@ -93,6 +94,7 @@ public class SupporterManager {
             e.printStackTrace();
         }
     }
+
     public void addRating(String supUUID, int rating) {
         try {
             ResultSet resultSet = connection.prepareStatement("SELECT ratings FROM supporters WHERE supUUID = '" + supUUID + "'").executeQuery();
@@ -109,6 +111,7 @@ public class SupporterManager {
             e.printStackTrace();
         }
     }
+
     public void addTicketCounter(String supUUID) {
         try {
             ResultSet resultSet = connection.prepareStatement("SELECT ticketCounter FROM supporters WHERE supUUID = '" + supUUID + "'").executeQuery();
@@ -120,6 +123,7 @@ public class SupporterManager {
             e.printStackTrace();
         }
     }
+
     public double getAverageRating(String supUUID) {
         try {
             ResultSet resultSet = connection.prepareStatement("SELECT ratings FROM supporters WHERE supUUID = '" + supUUID + "'").executeQuery();
@@ -143,6 +147,7 @@ public class SupporterManager {
         }
         return 0;
     }
+
     public boolean isLoggedIn(String supUUID) {
         try {
             ResultSet resultSet = connection.prepareStatement("SELECT isLoggedIn FROM supporters WHERE supUUID = '" + supUUID + "'").executeQuery();
@@ -154,6 +159,7 @@ public class SupporterManager {
         }
         return false;
     }
+
     public void toggleIsLoggedIn(String supUUID) {
         try {
             ResultSet resultSet = connection.prepareStatement("SELECT isLoggedIn FROM supporters WHERE supUUID = '" + supUUID + "'").executeQuery();
@@ -165,5 +171,4 @@ public class SupporterManager {
             e.printStackTrace();
         }
     }
-
 }
