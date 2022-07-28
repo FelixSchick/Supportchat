@@ -1,3 +1,3 @@
 name: Supportchat
 version: '${project.version}'
-main: de.illegalaccess.supportchat.Supportchat
+main: de.bravemc.supportchat.Supportchat
