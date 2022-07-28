@@ -374,7 +374,7 @@ public class SupportCommand extends Command implements TabExecutor {
                                     for (UUID supUUID : ticketManager.getSupUUIDs(ticketID)) {
                                         player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "\t§8- §e" + UUIDManager.getName(supUUID)));
                                     }
-                                    player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7Status: §e" + status.toString()));
+                                    player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7Status: §e" + status.getStatus()));
                                     player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + " "));
                                 }
                             } else
