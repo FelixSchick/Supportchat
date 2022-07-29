@@ -1,10 +1,10 @@
-package de.illegalaccess.supportchat;
+package de.bravemc.supportchat;
 
-import de.illegalaccess.supportchat.commands.SupportCommand;
-import de.illegalaccess.supportchat.listeners.PlayerChatListener;
-import de.illegalaccess.supportchat.listeners.PlayerLoginListener;
-import de.illegalaccess.supportchat.listeners.PlayerQuitListener;
-import de.illegalaccess.supportchat.mysql.MySQL;
+import de.bravemc.supportchat.commands.SupportCommand;
+import de.bravemc.supportchat.listeners.PlayerChatListener;
+import de.bravemc.supportchat.listeners.PlayerLoginListener;
+import de.bravemc.supportchat.listeners.PlayerQuitListener;
+import de.bravemc.supportchat.mysql.MySQL;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
@@ -49,7 +49,6 @@ public final class Supportchat extends Plugin {
         MySQL.getInstance().createTabels();
 
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new SupportCommand());
-
         ProxyServer.getInstance().getPluginManager().registerListener(this, new PlayerChatListener());
         ProxyServer.getInstance().getPluginManager().registerListener(this, new PlayerLoginListener());
         ProxyServer.getInstance().getPluginManager().registerListener(this, new PlayerQuitListener());

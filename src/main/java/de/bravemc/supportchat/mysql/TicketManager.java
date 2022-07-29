@@ -1,8 +1,8 @@
-package de.illegalaccess.supportchat.mysql;
+package de.bravemc.supportchat.mysql;
 
-import de.illegalaccess.supportchat.utils.TicketLanguage;
-import de.illegalaccess.supportchat.utils.TicketStatus;
-import de.illegalaccess.supportchat.utils.UUIDManager;
+import de.bravemc.supportchat.utils.TicketLanguage;
+import de.bravemc.supportchat.utils.TicketStatus;
+import de.bravemc.supportchat.utils.UUIDManager;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

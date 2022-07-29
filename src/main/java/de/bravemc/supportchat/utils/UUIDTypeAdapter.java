@@ -1,4 +1,4 @@
-package de.illegalaccess.supportchat.utils;
+package de.bravemc.supportchat.utils;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;

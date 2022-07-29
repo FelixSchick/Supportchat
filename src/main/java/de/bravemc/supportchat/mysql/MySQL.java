@@ -1,6 +1,6 @@
-package de.illegalaccess.supportchat.mysql;
+package de.bravemc.supportchat.mysql;
 
-import de.illegalaccess.supportchat.Supportchat;
+import de.bravemc.supportchat.Supportchat;
 
 import java.sql.*;
 

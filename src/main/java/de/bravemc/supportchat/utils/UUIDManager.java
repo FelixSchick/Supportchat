@@ -1,4 +1,4 @@
-package de.illegalaccess.supportchat.utils;
+package de.bravemc.supportchat.utils;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
