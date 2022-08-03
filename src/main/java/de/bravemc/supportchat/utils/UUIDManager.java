@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -25,13 +26,6 @@ public class UUIDManager {
     private String name;
     private UUID id;
 
-    public static void getUUID(String name, Consumer<UUID> action) {
-        pool.execute(() -> action.accept(getUUID(name)));
-    }
-
-    public static UUID getUUID(String name) {
-        return getUUIDAt(name, System.currentTimeMillis());
-    }
 
     public static void getUUIDAt(String name, long timestamp, Consumer<UUID> action) {
         pool.execute(() -> action.accept(getUUIDAt(name, timestamp)));
@@ -81,6 +75,10 @@ public class UUIDManager {
     public static void clearCache() {
         uuidCache.clear();
         nameCache.clear();
+    }
+
+    public static UUID getUUID(String name){
+        return UUID.nameUUIDFromBytes(("OfflinePlayer:" + name).getBytes(StandardCharsets.UTF_8));
     }
 
 }

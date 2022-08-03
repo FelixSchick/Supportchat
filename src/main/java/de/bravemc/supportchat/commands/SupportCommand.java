@@ -326,9 +326,18 @@ public class SupportCommand extends Command implements TabExecutor {
                     } else if (args[0].equalsIgnoreCase("move")) {
                         if (player.hasPermission("supportchat.move")) {
                             if (args.length == 3) {
-                                String supUUID = UUIDManager.getUUID(args[1]).toString();
+                                if (ProxyServer.getInstance().getPlayer(args[1]) == null){
+                                    player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7Der Spieler ist offline"));
+                                    return;
+                                }
+
+                                String supUUID = ProxyServer.getInstance().getPlayer(args[1]).getUniqueId().toString();
                                 if (supporterManager.isSupporter(supUUID)) {
-                                    int ticketID = ticketManager.getTicketID(UUIDManager.getUUID(args[2]).toString(), TicketStatus.OPEN);
+                                    if (ProxyServer.getInstance().getPlayer(args[2]) == null){
+                                        player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7Der Spieler ist offline"));
+                                        return;
+                                    }
+                                    int ticketID = ticketManager.getTicketID(ProxyServer.getInstance().getPlayer(args[2]).toString(), TicketStatus.OPEN);
                                     if (ticketID != 0) {
                                         if (!(ticketManager.getSupUUIDs(ticketID).contains(supUUID))) {
                                             ticketManager.addSups(ticketID, supUUID);
