@@ -54,23 +54,23 @@ public class MySQL {
         }
     }
 
-    public void update(String qry) {
+    public int update(String qry) {
         try {
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(qry);
-            statement.close();
+            PreparedStatement statement = connection.prepareStatement(qry);
+            return statement.executeUpdate();
         } catch (SQLException exception) {
             exception.printStackTrace();
             System.out.println("§7[§bMySQL§7] §cEin Fehler ist aufgetreten, Exeption: update error");
         }
+        return -1;
     }
 
     public ResultSet qry(String query) {
         ResultSet rs = null;
 
         try {
-            Statement st = connection.createStatement();
-            rs = st.executeQuery(query);
+            PreparedStatement st = connection.prepareStatement(query);
+            rs = st.executeQuery();
         } catch (Exception e) {
             e.printStackTrace();
             connect();
