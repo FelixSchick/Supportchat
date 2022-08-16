@@ -37,7 +37,6 @@ public class MySQL {
     public void connect() {
         try {
             final String url = "jdbc:mysql://" + host + ":" + port + "/" + database + "?autoReconnect=true";
-            System.out.println(url + "\nUser: " + username + "\nPasswort: " + password);
             connection = DriverManager.getConnection(url, username, password);
             System.out.println("§7[§bMySQL§7] §aDie verbindung zur MySQL-Datenbank wurde hergestellt.");
         } catch (SQLException exception) {
