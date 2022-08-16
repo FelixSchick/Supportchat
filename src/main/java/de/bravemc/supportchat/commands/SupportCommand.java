@@ -75,7 +75,7 @@ public class SupportCommand extends Command implements TabExecutor {
                                             }
                                             if (ProxyServer.getInstance().getPlayer(UUID.fromString(uuid)) != null) {
                                                 ProxiedPlayer target = ProxyServer.getInstance().getPlayer(UUID.fromString(uuid));
-                                                target.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§e" + args[1] + " §8» §e" + player.getDisplayName() + "§8: §7Herzlich willkommen im offiziellen Support von BraveMC.de wie kann ich dir weiterhelfen?"));
+                                                target.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + player.getDisplayName() + "§8: §7Herzlich willkommen im offiziellen Support von BraveMC.de wie kann ich dir weiterhelfen?"));
                                             }
                                         } else {
                                             player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7Du bist bereits dem Ticket beigetreten."));
@@ -148,7 +148,7 @@ public class SupportCommand extends Command implements TabExecutor {
                                     if (ProxyServer.getInstance().getPlayer(UUID.fromString(uuid)) != null) {
                                         ProxiedPlayer target = ProxyServer.getInstance().getPlayer(UUID.fromString(uuid));
                                         target.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7Dein Ticket wurde von §e" + player.getDisplayName() + " §7geschlossen."));
-                                        TextComponent main = new TextComponent(Supportchat.getInstance().getPrefix() + "§8Du kannst nun den Support bewerten(mit einem Klick auf die Sterne):\n");
+                                        TextComponent main = new TextComponent(Supportchat.getInstance().getPrefix() + "Du kannst nun den Support bewerten(mit einem Klick auf die Sterne):\n");
 
                                         TextComponent star1 = generateRatingStar("§8[§6✩§8] ", "§61 §7Stern Bewertung", "/support rate 1");
 

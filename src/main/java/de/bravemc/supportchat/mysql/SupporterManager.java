@@ -47,10 +47,13 @@ public class SupporterManager {
             return CompletableFuture.supplyAsync(() -> {
                 final ResultSet resultSet = MySQL.getInstance().qry("SELECT * FROM supporters WHERE supUUID='" + supUUID + "';");
                 try {
-                    return resultSet.next();
+                    if(resultSet.next()){
+                        return true;
+                    }
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
+                return false;
             }).get();
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);

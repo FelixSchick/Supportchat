@@ -98,16 +98,13 @@ public class TicketManager {
                                 }
                             }
                         } else {
-                            if (resultSet.getString("supUUIDs").equals("")) {
-                                return sups;
-                            } else {
-                                UUID uuid = UUID.fromString(resultSet.getString("supUUIDs"));
+                            final String supUUIDs = resultSet.getString("supUUIDs");
+                            if (!supUUIDs.equals("")) {
+                                UUID uuid = UUID.fromString(supUUIDs);
                                 sups.add(uuid);
                             }
-
                         }
                     }
-                    return sups;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
