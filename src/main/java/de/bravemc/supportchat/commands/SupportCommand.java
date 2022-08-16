@@ -37,42 +37,26 @@ public class SupportCommand extends Command implements TabExecutor {
         if (sender instanceof ProxiedPlayer) {
             ProxiedPlayer player = (ProxiedPlayer) sender;
             if (args.length >= 1) {
-                if (args[0].equalsIgnoreCase("German") || args[0].equalsIgnoreCase("English")) {
+                if (args[0].equalsIgnoreCase("erstellen")) {
                     if (supporterManager.isSupporter(player.getUniqueId().toString())) {
                         player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§cDu bist bereits ein Supporter! Du darfst kein Ticket öffnen :P"));
                         return;
                     }
-                    if (args[0].equalsIgnoreCase("German")) {
-                        if (ticketManager.getTicketID(player.getUniqueId().toString(), TicketStatus.OPEN) == 0) {
-                            TextComponent main = new TextComponent(Supportchat.getInstance().getPrefix() + "§7Der Spieler §e" + player.getDisplayName() + " §8[§e" + args[0] + "§8] §7benötigt hilfe.");
-                            main.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§7Klicke hier um das Ticket zu öffnen!").create()));
-                            main.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/support join " + player.getName()));
-                            for (ProxiedPlayer all : ProxyServer.getInstance().getPlayers()) {
-                                if (all.hasPermission("supportchat.notify")) {
-                                    if (supporterManager.isLoggedIn(all.getUniqueId().toString())) {
-                                        all.sendMessage(main);
-                                    }
+                    if (ticketManager.getTicketID(player.getUniqueId().toString(), TicketStatus.OPEN) == 0) {
+                        TextComponent main = new TextComponent(Supportchat.getInstance().getPrefix() + "§7Der Spieler §e" + player.getDisplayName() + " §7benötigt hilfe.");
+                        main.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§7Klicke hier um das Ticket zu öffnen!").create()));
+                        main.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/support join " + player.getName()));
+                        for (ProxiedPlayer all : ProxyServer.getInstance().getPlayers()) {
+                            if (all.hasPermission("supportchat.notify")) {
+                                if (supporterManager.isLoggedIn(all.getUniqueId().toString())) {
+                                    all.sendMessage(main);
                                 }
                             }
-                            ticketManager.insertTicket(player.getUniqueId().toString(), "", TicketLanguage.GERMAN, TicketStatus.OPEN);
-                            player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7Du hast ein neues Ticket erstellt."));
                         }
-                    } else if (args[0].equalsIgnoreCase("English")) {
-                        if (ticketManager.getTicketID(player.getUniqueId().toString(), TicketStatus.OPEN) == 0) {
-                            TextComponent main = new TextComponent(Supportchat.getInstance().getPrefix() + "§7Der Spieler §e" + player.getDisplayName() + " §8[§e" + args[0] + "§8] §7benötigt hilfe.");
-                            main.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§7Klicke hier um das Ticket zu öffnen!").create()));
-                            main.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/support join " + player.getName()));
-                            for (ProxiedPlayer all : ProxyServer.getInstance().getPlayers()) {
-                                if (all.hasPermission("supportchat.notify")) {
-                                    if (supporterManager.isLoggedIn(all.getUniqueId().toString())) {
-                                        all.sendMessage(main);
-                                    }
-                                }
-                            }
-                            ticketManager.insertTicket(player.getUniqueId().toString(), "", TicketLanguage.ENGLISH, TicketStatus.OPEN);
-                            player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7Du hast ein neues Ticket erstellt."));
-                        }
+                        ticketManager.insertTicket(player.getUniqueId().toString(), "", TicketLanguage.GERMAN, TicketStatus.OPEN);
+                        player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7Du hast ein neues Ticket erstellt."));
                     }
+
                 } else if (args[0].equalsIgnoreCase("join")) {
                     if (player.hasPermission("supportchat.join")) {
                         if (args.length == 2) {
@@ -427,7 +411,7 @@ public class SupportCommand extends Command implements TabExecutor {
                 }
             } else {
                 if (args.length == 1) {
-                    return Arrays.asList("German", "English", "close");
+                    return Arrays.asList("erstellen", "close");
                 } else {
                     return Lists.newArrayList();
                 }

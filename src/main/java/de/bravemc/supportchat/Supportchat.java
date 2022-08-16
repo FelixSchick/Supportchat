@@ -48,10 +48,12 @@ public final class Supportchat extends Plugin {
         MySQL.getInstance().connect();
         MySQL.getInstance().createTabels();
 
+
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new SupportCommand());
         ProxyServer.getInstance().getPluginManager().registerListener(this, new PlayerChatListener());
         ProxyServer.getInstance().getPluginManager().registerListener(this, new PlayerLoginListener());
         ProxyServer.getInstance().getPluginManager().registerListener(this, new PlayerQuitListener());
+
     }
 
     @Override
@@ -81,4 +83,6 @@ public final class Supportchat extends Plugin {
     public static Supportchat getInstance() {
         return instance;
     }
+
+
 }
