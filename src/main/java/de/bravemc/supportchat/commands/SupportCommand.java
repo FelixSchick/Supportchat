@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import de.bravemc.supportchat.Supportchat;
 import de.bravemc.supportchat.mysql.SupporterManager;
 import de.bravemc.supportchat.mysql.TicketManager;
-import de.bravemc.supportchat.utils.TicketLanguage;
 import de.bravemc.supportchat.utils.TicketStatus;
 import de.bravemc.supportchat.utils.UUIDManager;
 import net.md_5.bungee.api.CommandSender;
@@ -36,28 +35,27 @@ public class SupportCommand extends Command implements TabExecutor {
         TicketManager ticketManager = new TicketManager();
         if (sender instanceof ProxiedPlayer) {
             ProxiedPlayer player = (ProxiedPlayer) sender;
-            if (args.length >= 1) {
-                if (args[0].equalsIgnoreCase("erstellen")) {
-                    if (supporterManager.isSupporter(player.getUniqueId().toString())) {
-                        player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§cDu bist bereits ein Supporter! Du darfst kein Ticket öffnen :P"));
-                        return;
-                    }
-                    if (ticketManager.getTicketID(player.getUniqueId().toString(), TicketStatus.OPEN) == 0) {
-                        TextComponent main = new TextComponent(Supportchat.getInstance().getPrefix() + "§7Der Spieler §e" + player.getDisplayName() + " §7benötigt hilfe.");
-                        main.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§7Klicke hier um das Ticket zu öffnen!").create()));
-                        main.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/support join " + player.getName()));
-                        for (ProxiedPlayer all : ProxyServer.getInstance().getPlayers()) {
-                            if (all.hasPermission("supportchat.notify")) {
-                                if (supporterManager.isLoggedIn(all.getUniqueId().toString())) {
-                                    all.sendMessage(main);
-                                }
+            if (args.length == 0) {
+                if (supporterManager.isSupporter(player.getUniqueId().toString())) {
+                    player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§cDu bist bereits ein Supporter! Du darfst kein Ticket öffnen :P"));
+                    return;
+                }
+                if (ticketManager.getTicketID(player.getUniqueId().toString(), TicketStatus.OPEN) == 0) {
+                    TextComponent main = new TextComponent(Supportchat.getInstance().getPrefix() + "§7Der Spieler §e" + player.getDisplayName() + " §7benötigt hilfe.");
+                    main.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§7Klicke hier um das Ticket zu öffnen!").create()));
+                    main.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/support join " + player.getName()));
+                    for (ProxiedPlayer all : ProxyServer.getInstance().getPlayers()) {
+                        if (all.hasPermission("supportchat.notify")) {
+                            if (supporterManager.isLoggedIn(all.getUniqueId().toString())) {
+                                all.sendMessage(main);
                             }
                         }
-                        ticketManager.insertTicket(player.getUniqueId().toString(), "", TicketLanguage.GERMAN, TicketStatus.OPEN);
-                        player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7Du hast ein neues Ticket erstellt."));
                     }
-
-                } else if (args[0].equalsIgnoreCase("join")) {
+                    ticketManager.insertTicket(player.getUniqueId().toString(), "", TicketStatus.OPEN);
+                    player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7Du hast ein neues Ticket erstellt."));
+                }
+            } else if (args.length >= 1) {
+                if (args[0].equalsIgnoreCase("join")) {
                     if (player.hasPermission("supportchat.join")) {
                         if (args.length == 2) {
                             if (supporterManager.isLoggedIn(player.getUniqueId().toString())) {
@@ -68,24 +66,13 @@ public class SupportCommand extends Command implements TabExecutor {
                                             ticketManager.addSups(ticketManager.getTicketID(uuid, TicketStatus.OPEN), player.getUniqueId().toString());
                                             supporterManager.addTicketCounter(player.getUniqueId().toString());
                                             player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7Du bist dem Suppportchat beigetreten."));
-                                            if (ticketManager.getLanguage(ticketManager.getTicketID(uuid, TicketStatus.OPEN)) == TicketLanguage.GERMAN) {
-                                                for (UUID sup : ticketManager.getSupUUIDs(ticketManager.getTicketID(uuid, TicketStatus.OPEN))) {
-                                                    ProxiedPlayer supPlayer = ProxyServer.getInstance().getPlayer(sup);
-                                                    supPlayer.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§e" + args[1] + " §8» §e" + player.getDisplayName() + "§8: §7Herzlich willkommen im offiziellen Support von BraveMC.de wie kann ich dir weiterhelfen?"));
-                                                }
-                                                if (ProxyServer.getInstance().getPlayer(UUID.fromString(uuid)) != null) {
-                                                    ProxiedPlayer target = ProxyServer.getInstance().getPlayer(UUID.fromString(uuid));
-                                                    target.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§e" + args[1] + " §8» §e" + player.getDisplayName() + "§8: §7Herzlich willkommen im offiziellen Support von BraveMC.de wie kann ich dir weiterhelfen?"));
-                                                }
-                                            } else {
-                                                for (UUID sup : ticketManager.getSupUUIDs(ticketManager.getTicketID(uuid, TicketStatus.OPEN))) {
-                                                    ProxiedPlayer supPlayer = ProxyServer.getInstance().getPlayer(sup);
-                                                    supPlayer.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§e" + args[1] + " §8» §e" + player.getDisplayName() + "§8: §7Welcome to the official support of BraveMC.de how can I help you?"));
-                                                }
-                                                if (ProxyServer.getInstance().getPlayer(UUID.fromString(uuid)) != null) {
-                                                    ProxiedPlayer target = ProxyServer.getInstance().getPlayer(UUID.fromString(uuid));
-                                                    target.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§e" + args[1] + " §8» §e" + player.getDisplayName() + "§8: §7Welcome to the official support of BraveMC.de how can I help you?"));
-                                                }
+                                            for (UUID sup : ticketManager.getSupUUIDs(ticketManager.getTicketID(uuid, TicketStatus.OPEN))) {
+                                                ProxiedPlayer supPlayer = ProxyServer.getInstance().getPlayer(sup);
+                                                supPlayer.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§e" + args[1] + " §8» §e" + player.getDisplayName() + "§8: §7Herzlich willkommen im offiziellen Support von BraveMC.de wie kann ich dir weiterhelfen?"));
+                                            }
+                                            if (ProxyServer.getInstance().getPlayer(UUID.fromString(uuid)) != null) {
+                                                ProxiedPlayer target = ProxyServer.getInstance().getPlayer(UUID.fromString(uuid));
+                                                target.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§e" + args[1] + " §8» §e" + player.getDisplayName() + "§8: §7Herzlich willkommen im offiziellen Support von BraveMC.de wie kann ich dir weiterhelfen?"));
                                             }
                                         } else
                                             player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7Du bist bereits dem Ticket beigetreten."));
@@ -310,14 +297,14 @@ public class SupportCommand extends Command implements TabExecutor {
                     } else if (args[0].equalsIgnoreCase("move")) {
                         if (player.hasPermission("supportchat.move")) {
                             if (args.length == 3) {
-                                if (ProxyServer.getInstance().getPlayer(args[1]) == null){
+                                if (ProxyServer.getInstance().getPlayer(args[1]) == null) {
                                     player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7Der Spieler ist offline"));
                                     return;
                                 }
 
                                 String supUUID = ProxyServer.getInstance().getPlayer(args[1]).getUniqueId().toString();
                                 if (supporterManager.isSupporter(supUUID)) {
-                                    if (ProxyServer.getInstance().getPlayer(args[2]) == null){
+                                    if (ProxyServer.getInstance().getPlayer(args[2]) == null) {
                                         player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7Der Spieler ist offline"));
                                         return;
                                     }

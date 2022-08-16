@@ -22,8 +22,8 @@ public class MySQL {
         password = Supportchat.getInstance().getConfig().getString("MySQL.password");
     }
 
-    public static MySQL getInstance(){
-        if(instance == null){
+    public static MySQL getInstance() {
+        if (instance == null) {
             instance = new MySQL();
         }
         return instance;
@@ -84,7 +84,7 @@ public class MySQL {
 
     public void createTabels() {
         update("CREATE TABLE IF NOT EXISTS `supporters` ( `supUUID` VARCHAR(36), `ratings` TEXT(65535), isLoggedIn BOOLEAN , `ticketCounter` INT(255), `lastActivity` TIMESTAMP, PRIMARY KEY (`supUUID`)) ENGINE = InnoDB;");
-        update("CREATE TABLE IF NOT EXISTS `tickets` ( `ticketID` VARCHAR(16), `userUUID` VARCHAR(36), `supUUIDs` TEXT(65535), `creatingDate` TIMESTAMP DEFAULT CURRENT_TIMESTAMP, `closedDate` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, `language` VARCHAR(10) , `status` VARCHAR(10), PRIMARY KEY (`ticketID`)) ENGINE = InnoDB;");
+        update("CREATE TABLE IF NOT EXISTS `tickets` ( `ticketID` VARCHAR(16), `userUUID` VARCHAR(36), `supUUIDs` TEXT(65535), `creatingDate` TIMESTAMP DEFAULT CURRENT_TIMESTAMP, `closedDate` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, `status` VARCHAR(10), PRIMARY KEY (`ticketID`)) ENGINE = InnoDB;");
     }
 
     public Connection getConnection() {
