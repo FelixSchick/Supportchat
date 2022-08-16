@@ -5,6 +5,7 @@ import de.bravemc.supportchat.listeners.PlayerChatListener;
 import de.bravemc.supportchat.listeners.PlayerLoginListener;
 import de.bravemc.supportchat.listeners.PlayerQuitListener;
 import de.bravemc.supportchat.mysql.MySQL;
+import lombok.Getter;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
@@ -18,18 +19,13 @@ import java.nio.file.Files;
 
 public final class Supportchat extends Plugin {
 
+    @Getter
     private static Supportchat instance;
+    @Getter
     private Configuration config;
 
+    @Getter
     private final String prefix = "§8[§9Support§8] §7";
-
-    public String getPrefix() {
-        return prefix;
-    }
-
-    public Configuration getConfig() {
-        return config;
-    }
 
     @Override
     public void onLoad() {
@@ -46,19 +42,16 @@ public final class Supportchat extends Plugin {
         instance = this;
         createFiles();
         MySQL.getInstance().connect();
-        MySQL.getInstance().createTabels();
-
+        MySQL.getInstance().createTables();
 
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new SupportCommand());
         ProxyServer.getInstance().getPluginManager().registerListener(this, new PlayerChatListener());
         ProxyServer.getInstance().getPluginManager().registerListener(this, new PlayerLoginListener());
         ProxyServer.getInstance().getPluginManager().registerListener(this, new PlayerQuitListener());
-
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
     }
 
     private void createFiles() {
@@ -78,9 +71,5 @@ public final class Supportchat extends Plugin {
                 e.printStackTrace();
             }
         }
-    }
-
-    public static Supportchat getInstance() {
-        return instance;
     }
 }

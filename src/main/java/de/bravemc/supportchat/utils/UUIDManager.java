@@ -1,5 +1,7 @@
 package de.bravemc.supportchat.utils;
 
+import com.google.gson.Gson;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -12,8 +14,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
-import com.google.gson.Gson;
-
 public class UUIDManager {
 
     public static final long FEBRUARY_2015 = 1422748800000L;
@@ -25,7 +25,6 @@ public class UUIDManager {
     private static ExecutorService pool = Executors.newCachedThreadPool();
     private String name;
     private UUID id;
-
 
     public static void getUUIDAt(String name, long timestamp, Consumer<UUID> action) {
         pool.execute(() -> action.accept(getUUIDAt(name, timestamp)));
@@ -77,8 +76,7 @@ public class UUIDManager {
         nameCache.clear();
     }
 
-    public static UUID getUUID(String name){
+    public static UUID getUUID(String name) {
         return UUID.nameUUIDFromBytes(("OfflinePlayer:" + name).getBytes(StandardCharsets.UTF_8));
     }
-
 }

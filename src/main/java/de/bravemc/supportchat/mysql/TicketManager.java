@@ -2,7 +2,6 @@ package de.bravemc.supportchat.mysql;
 
 import de.bravemc.supportchat.utils.TicketStatus;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -12,8 +11,6 @@ import java.util.concurrent.ExecutionException;
 
 public class TicketManager {
     //Datenbank 2: ticketID, userUUID, supUUIDs, creatingDate, deleteDate, status
-    private Connection connection = MySQL.getInstance().getConnection();
-
     //insert new ticket with ticketID, userUUID, supUUIDs, creatingDate, deleteDate, status
     public void insertTicket(String userUUID, String supUUIDs, TicketStatus status) {
         Random random = new Random();
@@ -22,7 +19,6 @@ public class TicketManager {
     }
 
     //get ticketID from userUUID
-
     //get ticketID if status = status
     public int getTicketID(String userUUID, TicketStatus status) {
         try {
@@ -81,10 +77,7 @@ public class TicketManager {
         }
     }
 
-
     //check if ticket exists and status closed by userUUID
-
-
     //get supUUIDs in List from ticketID
     public List<UUID> getSupUUIDs(int ticketID) {
         try {

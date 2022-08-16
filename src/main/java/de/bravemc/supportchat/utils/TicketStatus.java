@@ -8,7 +8,7 @@ public enum TicketStatus {
 
     private final String status;
 
-    public String getStatus(){
+    public String getStatus() {
         return status;
     }
 

@@ -21,6 +21,7 @@ import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.UUID;
 
 public class SupportCommand extends Command implements TabExecutor {
@@ -405,7 +406,7 @@ public class SupportCommand extends Command implements TabExecutor {
                 }
             } else {
                 if (args.length == 1) {
-                    return Arrays.asList("close");
+                    return Collections.singletonList("close");
                 } else {
                     return Lists.newArrayList();
                 }

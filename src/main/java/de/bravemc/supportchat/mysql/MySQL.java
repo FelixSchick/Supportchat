@@ -8,11 +8,11 @@ public class MySQL {
 
     private static MySQL instance;
     private Connection connection;
-    private String host;
-    private int port;
-    private String database;
-    private String username;
-    private String password;
+    private final String host;
+    private final int port;
+    private final String database;
+    private final String username;
+    private final String password;
 
     public MySQL() {
         host = Supportchat.getInstance().getConfig().getString("MySQL.host");
@@ -30,7 +30,7 @@ public class MySQL {
     }
 
     @Override
-    protected void finalize() throws Throwable {
+    protected void finalize() {
         disconnect();
     }
 
@@ -60,7 +60,7 @@ public class MySQL {
             return statement.executeUpdate();
         } catch (SQLException exception) {
             exception.printStackTrace();
-            System.out.println("§7[§bMySQL§7] §cEin Fehler ist aufgetreten, Exeption: update error");
+            System.out.println("§7[§bMySQL§7] §cEin Fehler ist aufgetreten, Exception: update error");
         }
         return -1;
     }
@@ -77,17 +77,11 @@ public class MySQL {
         }
         return rs;
     }
-    //Datenbank 1: supUUID, ratings, ticketCounter, lastAcctiviy
+
+    //Datenbank 1: supUUID, ratings, ticketCounter, lastActivity
     //Datenbank 2: ticketID, userUUID, supUUIDs, creatingDate, deleteDate, status
-
-
-    public void createTabels() {
+    public void createTables() {
         update("CREATE TABLE IF NOT EXISTS `supporters` ( `supUUID` VARCHAR(36), `ratings` TEXT(65535), isLoggedIn BOOLEAN , `ticketCounter` INT(255), `lastActivity` TIMESTAMP, PRIMARY KEY (`supUUID`)) ENGINE = InnoDB;");
         update("CREATE TABLE IF NOT EXISTS `tickets` ( `ticketID` VARCHAR(16), `userUUID` VARCHAR(36), `supUUIDs` TEXT(65535), `creatingDate` TIMESTAMP DEFAULT CURRENT_TIMESTAMP, `closedDate` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, `status` VARCHAR(10), PRIMARY KEY (`ticketID`)) ENGINE = InnoDB;");
     }
-
-    public Connection getConnection() {
-        return connection;
-    }
-
 }
