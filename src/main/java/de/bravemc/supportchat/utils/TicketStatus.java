@@ -6,7 +6,7 @@ public enum TicketStatus {
     CLOSED("geschlossen"),
     DELETED("geschlossen");
 
-    private String status;
+    private final String status;
 
     public String getStatus(){
         return status;

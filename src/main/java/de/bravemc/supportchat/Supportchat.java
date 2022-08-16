@@ -83,6 +83,4 @@ public final class Supportchat extends Plugin {
     public static Supportchat getInstance() {
         return instance;
     }
-
-
 }
