@@ -38,10 +38,10 @@ public class MySQL {
         try {
             final String url = "jdbc:mysql://" + host + ":" + port + "/" + database + "?autoReconnect=true";
             connection = DriverManager.getConnection(url, username, password);
-            System.out.println("§7[§bMySQL§7] §aDie verbindung zur MySQL-Datenbank wurde hergestellt.");
+            System.out.println(Supportchat.getInstance().getPrefix() + "§aDie verbindung zur MySQL-Datenbank wurde hergestellt.");
         } catch (SQLException exception) {
             exception.fillInStackTrace();
-            System.out.println("§7[§bMySQL§7] §cEin Fehler ist aufgetreten, bitte überprüfe deine config!");
+            System.out.println(Supportchat.getInstance().getPrefix() + "§cEin Fehler ist aufgetreten, bitte überprüfe deine config!");
         }
     }
 
@@ -50,7 +50,7 @@ public class MySQL {
             if (connection != null) connection.close();
         } catch (SQLException exception) {
             exception.fillInStackTrace();
-            System.out.println("§7[§bMySQL§7] §cEin Fehler ist aufgetreten, bitte überprüfe deine config!");
+            System.out.println(Supportchat.getInstance().getPrefix() + "§cEin Fehler ist aufgetreten, bitte überprüfe deine config!");
         }
     }
 
@@ -60,7 +60,7 @@ public class MySQL {
             return statement.executeUpdate();
         } catch (SQLException exception) {
             exception.printStackTrace();
-            System.out.println("§7[§bMySQL§7] §cEin Fehler ist aufgetreten, Exception: update error");
+            System.out.println(Supportchat.getInstance().getPrefix() + "§cEin Fehler ist aufgetreten, Exception: update error");
         }
         return -1;
     }
