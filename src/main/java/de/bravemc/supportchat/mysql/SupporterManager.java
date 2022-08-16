@@ -2,39 +2,30 @@ package de.bravemc.supportchat.mysql;
 
 import com.google.common.collect.Lists;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 public class SupporterManager {
 
-    private Connection connection = MySQL.getInstance().getConnection();
-
     public void insertSupporter(String supUUID, int ticketCounter, boolean isLoggedIn) {
-        int isLoggedInInt = 0;
-        if (isLoggedIn)
-            isLoggedInInt = 1;
+        final int isLoggedInInt = isLoggedIn ? 1 : 0;
 
-        try {
-            connection.prepareStatement("INSERT INTO supporters (supUUID, ratings, ticketCounter, isLoggedIn) VALUES ('" + supUUID + "','" + "" + "', '" + ticketCounter + "', '" + isLoggedInInt + "')").executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        CompletableFuture.supplyAsync(() -> MySQL.getInstance().update("INSERT INTO supporters (supUUID, ratings, ticketCounter, isLoggedIn) VALUES ('" + supUUID + "','" + "" + "', '" + ticketCounter + "', '" + isLoggedInInt + "')"));
     }
 
     public void updateSupporter(String supUUID, int ratings, int ticketCounter) {
-        try {
-            connection.prepareStatement("UPDATE supporters SET ratings = " + ratings + ", ticketCounter = " + ticketCounter + " WHERE supUUID = '" + supUUID + "'").executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        CompletableFuture.supplyAsync(() -> MySQL.getInstance().update("UPDATE supporters SET ratings = " + ratings + ", ticketCounter = " + ticketCounter + " WHERE supUUID = '" + supUUID + "'"));
     }
 
     public List<Integer> getRatings(String supUUID) {
         List<Integer> ratings = Lists.newArrayList();
         try {
-            ResultSet resultSet = connection.prepareStatement("SELECT ratings, ticketCounter, lastAcctiviy FROM supporters WHERE supUUID = '" + supUUID + "'").executeQuery();
+            ResultSet resultSet = MySQL.getInstance().qry("SELECT ratings, ticketCounter, lastAcctiviy FROM supporters WHERE supUUID = '" + supUUID + "'");
             if (resultSet.next()) {
                 for (String rating : resultSet.getString("ratings").split(",")) {
                     try {
@@ -51,33 +42,39 @@ public class SupporterManager {
         return ratings;
     }
 
-    public boolean isSupporter(String supUUID) {
-        try {
-            ResultSet resultSet = connection.prepareStatement("SELECT * FROM supporters WHERE supUUID = '" + supUUID + "'").executeQuery();
-            if (resultSet.next()) {
-                return true;
+    public boolean isSupporter(String supUUID) throws ExecutionException, InterruptedException {
+
+        return CompletableFuture.supplyAsync(() -> {
+            final ResultSet resultSet = MySQL.getInstance().qry("SELECT * FROM supports WHERE supUUID='" + supUUID + "';");
+            try {
+                return resultSet.next();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
+        }).get();
     }
 
     public int getTicketCounter(String supUUID) {
         try {
-            ResultSet resultSet = connection.prepareStatement("SELECT ticketCounter FROM supporters WHERE supUUID = '" + supUUID + "'").executeQuery();
-            if (resultSet.next()) {
-                return resultSet.getInt("ticketCounter");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+            return CompletableFuture.supplyAsync(() -> {
+                final ResultSet resultSet = MySQL.getInstance().qry("SELECT ticketCounter FROM supporters WHERE supUUID = '" + supUUID + "'");
+                try {
+                    if (resultSet.next()) {
+                        return resultSet.getInt("ticketCounter");
+                    }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+                return null;
+            }).get();
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
         }
-        return 0;
     }
 
     public Timestamp getLastActivity(String supUUID) {
         try {
-            ResultSet resultSet = connection.prepareStatement("SELECT `lastActivity` FROM supporters WHERE supUUID = '" + supUUID + "'").executeQuery();
+            ResultSet resultSet = MySQL.getInstance().qry("SELECT `lastActivity` FROM supporters WHERE supUUID = '" + supUUID + "'");
             if (resultSet.next()) {
                 return resultSet.getTimestamp("lastActivity");
             }
@@ -88,69 +85,73 @@ public class SupporterManager {
     }
 
     public void updateLastActivity(String supUUID) {
-        try {
-            connection.prepareStatement("UPDATE supporters SET `lastActivity` = NOW() WHERE supUUID = '" + supUUID + "'").executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        CompletableFuture.supplyAsync(() -> MySQL.getInstance().update("UPDATE supporters SET `lastActivity` = NOW() WHERE supUUID = '" + supUUID + "'"));
     }
 
     public void addRating(String supUUID, int rating) {
-        try {
-            ResultSet resultSet = connection.prepareStatement("SELECT ratings FROM supporters WHERE supUUID = '" + supUUID + "'").executeQuery();
-            if (resultSet.next()) {
-                String ratings = resultSet.getString("ratings");
-                if (ratings == "") {
-                    ratings = rating + ",";
-                } else {
-                    ratings += rating + ",";
+        CompletableFuture.supplyAsync(() -> MySQL.getInstance().qry("SELECT ratings FROM supporters WHERE supUUID = '" + supUUID + "'")).thenAcceptAsync(resultSet -> {
+            try {
+                if (resultSet.next()) {
+                    String ratings = resultSet.getString("ratings");
+                    if (ratings == "") {
+                        ratings = rating + ",";
+                    } else {
+                        ratings += rating + ",";
+                    }
+                    MySQL.getInstance().update("UPDATE supporters SET ratings = '" + ratings + "' WHERE supUUID = '" + supUUID + "'");
                 }
-                connection.prepareStatement("UPDATE supporters SET ratings = '" + ratings + "' WHERE supUUID = '" + supUUID + "'").executeUpdate();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        });
     }
 
     public void addTicketCounter(String supUUID) {
-        try {
-            ResultSet resultSet = connection.prepareStatement("SELECT ticketCounter FROM supporters WHERE supUUID = '" + supUUID + "'").executeQuery();
-            if (resultSet.next()) {
-                int ticketCounter = resultSet.getInt("ticketCounter");
-                connection.prepareStatement("UPDATE supporters SET ticketCounter = " + (ticketCounter + 1) + " WHERE supUUID = '" + supUUID + "'").executeUpdate();
+        CompletableFuture.supplyAsync(() -> MySQL.getInstance().qry("SELECT ticketCounter FROM supporters WHERE supUUID = '" + supUUID + "'")).thenAcceptAsync(resultSet -> {
+            try {
+                if (resultSet.next()) {
+                    int ticketCounter = resultSet.getInt("ticketCounter");
+                    MySQL.getInstance().update("UPDATE supporters SET ticketCounter = " + (ticketCounter + 1) + " WHERE supUUID = '" + supUUID + "'");
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        });
     }
 
-    public double getAverageRating(String supUUID) {
+    public Number getAverageRating(String supUUID) {
         try {
-            ResultSet resultSet = connection.prepareStatement("SELECT ratings FROM supporters WHERE supUUID = '" + supUUID + "'").executeQuery();
-            if (resultSet.next()) {
-                String ratings = resultSet.getString("ratings");
-                if (ratings == "") {
-                    return 0;
-                } else {
-                    String[] ratingsArray = ratings.split(",");
-                    double sum = 0;
-                    for (String rating : ratingsArray) {
-                        if (rating != "") {
-                            sum += Integer.parseInt(rating.replace(",", ""));
+            return CompletableFuture.supplyAsync(() -> {
+                final ResultSet resultSet = MySQL.getInstance().qry("SELECT ratings FROM supporters WHERE supUUID = '" + supUUID + "'");
+                try {
+                    if (resultSet.next()) {
+                        String ratings = resultSet.getString("ratings");
+                        if (Objects.equals(ratings, "")) {
+                            return 0.0;
+                        } else {
+                            String[] ratingsArray = ratings.split(",");
+                            double sum = 0.0;
+                            for (String rating : ratingsArray) {
+                                if (!Objects.equals(rating, "")) {
+                                    sum += Integer.parseInt(rating.replace(",", ""));
+                                }
+                            }
+                            return sum / (ratingsArray.length);
                         }
                     }
-                    return sum / (ratingsArray.length);
+                    return 0.0;
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
                 }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+            }).get();
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
         }
-        return 0;
     }
 
     public boolean isLoggedIn(String supUUID) {
         try {
-            ResultSet resultSet = connection.prepareStatement("SELECT isLoggedIn FROM supporters WHERE supUUID = '" + supUUID + "'").executeQuery();
+            ResultSet resultSet = MySQL.getInstance().qry("SELECT isLoggedIn FROM supporters WHERE supUUID = '" + supUUID + "'");
             if (resultSet.next()) {
                 return resultSet.getBoolean("isLoggedIn");
             }
@@ -161,14 +162,17 @@ public class SupporterManager {
     }
 
     public void toggleIsLoggedIn(String supUUID) {
-        try {
-            ResultSet resultSet = connection.prepareStatement("SELECT isLoggedIn FROM supporters WHERE supUUID = '" + supUUID + "'").executeQuery();
-            if (resultSet.next()) {
-                boolean isLoggedIn = resultSet.getBoolean("isLoggedIn");
-                connection.prepareStatement("UPDATE supporters SET isLoggedIn = " + !isLoggedIn + " WHERE supUUID = '" + supUUID + "'").executeUpdate();
+        CompletableFuture.supplyAsync(() -> {
+            ResultSet resultSet = MySQL.getInstance().qry("SELECT isLoggedIn FROM supporters WHERE supUUID = '" + supUUID + "'");
+            try {
+                if (resultSet.next()) {
+                    boolean isLoggedIn = resultSet.getBoolean("isLoggedIn");
+                    CompletableFuture.supplyAsync(() -> MySQL.getInstance().update("UPDATE supporters SET isLoggedIn = " + !isLoggedIn + " WHERE supUUID = '" + supUUID + "'"));
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            return null;
+        });
     }
 }
