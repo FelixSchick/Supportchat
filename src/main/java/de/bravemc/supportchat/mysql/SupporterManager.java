@@ -42,16 +42,19 @@ public class SupporterManager {
         return ratings;
     }
 
-    public boolean isSupporter(String supUUID) throws ExecutionException, InterruptedException {
-
-        return CompletableFuture.supplyAsync(() -> {
-            final ResultSet resultSet = MySQL.getInstance().qry("SELECT * FROM supports WHERE supUUID='" + supUUID + "';");
-            try {
-                return resultSet.next();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        }).get();
+    public boolean isSupporter(String supUUID) {
+        try {
+            return CompletableFuture.supplyAsync(() -> {
+                final ResultSet resultSet = MySQL.getInstance().qry("SELECT * FROM supports WHERE supUUID='" + supUUID + "';");
+                try {
+                    return resultSet.next();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }).get();
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public int getTicketCounter(String supUUID) {
@@ -119,7 +122,7 @@ public class SupporterManager {
         });
     }
 
-    public Number getAverageRating(String supUUID) {
+    public double getAverageRating(String supUUID) {
         try {
             return CompletableFuture.supplyAsync(() -> {
                 final ResultSet resultSet = MySQL.getInstance().qry("SELECT ratings FROM supporters WHERE supUUID = '" + supUUID + "'");
