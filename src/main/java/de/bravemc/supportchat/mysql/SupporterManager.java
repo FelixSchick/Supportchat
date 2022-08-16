@@ -45,7 +45,7 @@ public class SupporterManager {
     public boolean isSupporter(String supUUID) {
         try {
             return CompletableFuture.supplyAsync(() -> {
-                final ResultSet resultSet = MySQL.getInstance().qry("SELECT * FROM supports WHERE supUUID='" + supUUID + "';");
+                final ResultSet resultSet = MySQL.getInstance().qry("SELECT * FROM supporters WHERE supUUID='" + supUUID + "';");
                 try {
                     return resultSet.next();
                 } catch (SQLException e) {
