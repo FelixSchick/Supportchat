@@ -10,17 +10,20 @@ import net.md_5.bungee.event.EventHandler;
 import net.md_5.bungee.event.EventPriority;
 
 public class PlayerLoginListener implements Listener {
-    private final SupporterManager manager = new SupporterManager();
+    private final SupporterManager manager;
+
+    public PlayerLoginListener(){
+        manager = new SupporterManager();
+    }
 
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onLogin(PostLoginEvent event) {
+    public void onLogin(final PostLoginEvent event) {
         final ProxiedPlayer player = event.getPlayer();
         if (player.hasPermission("supportchat.supporter")) {
             if (!(manager.isSupporter(player.getUniqueId()))) {
                 manager.insertSupporter(player.getUniqueId(), 0, true);
             }
-            final boolean loggedIn = manager.isLoggedIn(player.getUniqueId());
-            player.sendMessage(TextComponent.fromLegacyText(SupportChat.getInstance().getPrefix() + "§7Status§8: " + (loggedIn ? "§aeingeloggt" : "§causgeloggt")));
+            player.sendMessage(TextComponent.fromLegacyText(SupportChat.getInstance().getPrefix() + "§7Status§8: " + (manager.isLoggedIn(player.getUniqueId()) ? "§aeingeloggt" : "§causgeloggt")));
         }
     }
 }

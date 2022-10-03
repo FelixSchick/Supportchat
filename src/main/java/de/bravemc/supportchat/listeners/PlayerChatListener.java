@@ -14,21 +14,26 @@ import net.md_5.bungee.event.EventHandler;
 import java.util.UUID;
 
 public class PlayerChatListener implements Listener {
+    private final TicketManager ticketManager;
+    private final SupporterManager supporterManager;
+
+    public PlayerChatListener(){
+        ticketManager = new TicketManager();
+        supporterManager = new SupporterManager();
+    }
+
     @EventHandler
-    public void onChat(ChatEvent event) {
-        ProxiedPlayer player = (ProxiedPlayer) event.getSender();
-        TicketManager ticketManager = new TicketManager();
-        SupporterManager supporterManager = new SupporterManager();
+    public void onChat(final ChatEvent event) {
+        final ProxiedPlayer player = (ProxiedPlayer) event.getSender();
         if (!(supporterManager.isSupporter(player.getUniqueId()))) {
             if (ticketManager.getTicketID(player.getUniqueId(), TicketStatus.OPEN) != 0) {
                 if (!(event.getMessage().startsWith("/"))) {
                     event.setCancelled(true);
                     player.sendMessage(TextComponent.fromLegacyText(SupportChat.getInstance().getPrefix() + "§7" + player.getDisplayName() + "§8: §7" + event.getMessage()));
-
-                    for (UUID uuids : ticketManager.getSupUUIDs(ticketManager.getTicketID(player.getUniqueId(), TicketStatus.OPEN))) {
+                    for (final UUID uuids : ticketManager.getSupUUIDs(ticketManager.getTicketID(player.getUniqueId(), TicketStatus.OPEN))) {
                         if (uuids != null) {
                             if (ProxyServer.getInstance().getPlayer(uuids) != null) {
-                                ProxiedPlayer all = ProxyServer.getInstance().getPlayer(uuids);
+                                final ProxiedPlayer all = ProxyServer.getInstance().getPlayer(uuids);
                                 all.sendMessage(TextComponent.fromLegacyText(SupportChat.getInstance().getPrefix() + "§e" + player.getName() + " §8» " + player.getDisplayName() + "§8: §7" + event.getMessage()));
                             }
                         }
