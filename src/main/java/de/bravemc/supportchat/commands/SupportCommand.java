@@ -318,16 +318,10 @@ public class SupportCommand extends Command implements TabExecutor {
                                             player.sendMessage(TextComponent.fromLegacyText(SupportChat.getInstance().getPrefix() + "§7Spieler: §e" + name));
                                             player.sendMessage(TextComponent.fromLegacyText(SupportChat.getInstance().getPrefix() + "§7Erstellt am: §e" + dateFormat.format(creatingDate.toInstant().toEpochMilli())));
                                             player.sendMessage(TextComponent.fromLegacyText(SupportChat.getInstance().getPrefix() + "§7Geschlossen am: §e" + dateFormat.format(closedDate.toInstant().toEpochMilli())));
-                                            player.sendMessage(TextComponent.fromLegacyText(SupportChat.getInstance().getPrefix() + "§7Supporter: §e"));
                                             player.sendMessage(TextComponent.fromLegacyText(SupportChat.getInstance().getPrefix() + "§7Status: §e" + status.getStatus()));
+                                            player.sendMessage(TextComponent.fromLegacyText(SupportChat.getInstance().getPrefix() + "§7Supporter: §e"));
                                             for (final UUID supUUID : ticketManager.getSupUUIDs(ticketID)) {
-                                                final String supporterName;
-                                                try {
-                                                    supporterName = SupportChat.getInstance().getUuidFetcher().fetchName(supUUID);
-                                                } catch (Exception e) {
-                                                    throw new RuntimeException(e);
-                                                }
-                                                player.sendMessage(TextComponent.fromLegacyText(SupportChat.getInstance().getPrefix() + "§8- §e" + supporterName));
+                                                SupportChat.getInstance().getUuidFetcher().fetchNameAsync(supUUID, supporterName -> player.sendMessage(TextComponent.fromLegacyText(SupportChat.getInstance().getPrefix() + "§8- §e" + supporterName)));
                                             }
                                             player.sendMessage(TextComponent.fromLegacyText(SupportChat.getInstance().getPrefix() + " "));
                                         });
