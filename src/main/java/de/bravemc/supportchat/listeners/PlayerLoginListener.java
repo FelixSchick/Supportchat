@@ -9,21 +9,28 @@ import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 import net.md_5.bungee.event.EventPriority;
 
+import java.util.UUID;
+
 public class PlayerLoginListener implements Listener {
     private final SupporterManager manager;
 
-    public PlayerLoginListener(){
+    public PlayerLoginListener() {
         manager = new SupporterManager();
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onLogin(final PostLoginEvent event) {
         final ProxiedPlayer player = event.getPlayer();
+        final UUID uuid = player.getUniqueId();
         if (player.hasPermission("supportchat.supporter")) {
-            if (!(manager.isSupporter(player.getUniqueId()))) {
-                manager.insertSupporter(player.getUniqueId(), 0, true);
+            if (!(manager.isSupporter(uuid))) {
+                manager.insertSupporter(uuid, 0, true);
             }
-            player.sendMessage(TextComponent.fromLegacyText(SupportChat.getInstance().getPrefix() + "§7Status§8: " + (manager.isLoggedIn(player.getUniqueId()) ? "§aeingeloggt" : "§causgeloggt")));
+            player.sendMessage(TextComponent.fromLegacyText(SupportChat.getInstance().getPrefix() + "§7Status§8: " + (manager.isLoggedIn(uuid) ? "§aeingeloggt" : "§causgeloggt")));
+        } else {
+            if (manager.isSupporter(uuid)) {
+                manager.deleteSupporter(uuid);
+            }
         }
     }
 }
