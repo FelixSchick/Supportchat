@@ -56,6 +56,10 @@ public class SupporterManager {
         }).get();
     }
 
+    public void deleteSupporter(final UUID uuid){
+        CompletableFuture.supplyAsync(() -> MySQL.getInstance().update("DELETE FROM supports WHERE supUUID='"+uuid+"'"));
+    }
+
     @SneakyThrows
     public int getTicketCounter(UUID supUUID) {
 
