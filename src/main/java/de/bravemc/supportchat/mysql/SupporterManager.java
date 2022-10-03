@@ -7,22 +7,23 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 public class SupporterManager {
 
-    public void insertSupporter(String supUUID, int ticketCounter, boolean isLoggedIn) {
+    public void insertSupporter(UUID supUUID, int ticketCounter, boolean isLoggedIn) {
         final int isLoggedInInt = isLoggedIn ? 1 : 0;
 
         CompletableFuture.supplyAsync(() -> MySQL.getInstance().update("INSERT INTO supporters (supUUID, ratings, ticketCounter, isLoggedIn) VALUES ('" + supUUID + "','" + "" + "', '" + ticketCounter + "', '" + isLoggedInInt + "')"));
     }
 
-    public void updateSupporter(String supUUID, int ratings, int ticketCounter) {
+    public void updateSupporter(UUID supUUID, int ratings, int ticketCounter) {
         CompletableFuture.supplyAsync(() -> MySQL.getInstance().update("UPDATE supporters SET ratings = " + ratings + ", ticketCounter = " + ticketCounter + " WHERE supUUID = '" + supUUID + "'"));
     }
 
-    public List<Integer> getRatings(String supUUID) {
+    public List<Integer> getRatings(UUID supUUID) {
         List<Integer> ratings = Lists.newArrayList();
         try {
             ResultSet resultSet = MySQL.getInstance().qry("SELECT ratings, ticketCounter, lastAcctiviy FROM supporters WHERE supUUID = '" + supUUID + "'");
@@ -42,7 +43,7 @@ public class SupporterManager {
         return ratings;
     }
 
-    public boolean isSupporter(String supUUID) {
+    public boolean isSupporter(UUID supUUID) {
         try {
             return CompletableFuture.supplyAsync(() -> {
                 final ResultSet resultSet = MySQL.getInstance().qry("SELECT * FROM supporters WHERE supUUID='" + supUUID + "';");
@@ -60,7 +61,7 @@ public class SupporterManager {
         }
     }
 
-    public int getTicketCounter(String supUUID) {
+    public int getTicketCounter(UUID supUUID) {
         try {
             return CompletableFuture.supplyAsync(() -> {
                 final ResultSet resultSet = MySQL.getInstance().qry("SELECT ticketCounter FROM supporters WHERE supUUID = '" + supUUID + "'");
@@ -78,7 +79,7 @@ public class SupporterManager {
         }
     }
 
-    public Timestamp getLastActivity(String supUUID) {
+    public Timestamp getLastActivity(UUID supUUID) {
         try {
             ResultSet resultSet = MySQL.getInstance().qry("SELECT `lastActivity` FROM supporters WHERE supUUID = '" + supUUID + "'");
             if (resultSet.next()) {
@@ -90,11 +91,11 @@ public class SupporterManager {
         return null;
     }
 
-    public void updateLastActivity(String supUUID) {
+    public void updateLastActivity(UUID supUUID) {
         CompletableFuture.supplyAsync(() -> MySQL.getInstance().update("UPDATE supporters SET `lastActivity` = NOW() WHERE supUUID = '" + supUUID + "'"));
     }
 
-    public void addRating(String supUUID, int rating) {
+    public void addRating(UUID supUUID, int rating) {
         CompletableFuture.supplyAsync(() -> MySQL.getInstance().qry("SELECT ratings FROM supporters WHERE supUUID = '" + supUUID + "'")).thenAcceptAsync(resultSet -> {
             try {
                 if (resultSet.next()) {
@@ -112,7 +113,7 @@ public class SupporterManager {
         });
     }
 
-    public void addTicketCounter(String supUUID) {
+    public void addTicketCounter(UUID supUUID) {
         CompletableFuture.supplyAsync(() -> MySQL.getInstance().qry("SELECT ticketCounter FROM supporters WHERE supUUID = '" + supUUID + "'")).thenAcceptAsync(resultSet -> {
             try {
                 if (resultSet.next()) {
@@ -125,7 +126,7 @@ public class SupporterManager {
         });
     }
 
-    public double getAverageRating(String supUUID) {
+    public double getAverageRating(UUID supUUID) {
         try {
             return CompletableFuture.supplyAsync(() -> {
                 final ResultSet resultSet = MySQL.getInstance().qry("SELECT ratings FROM supporters WHERE supUUID = '" + supUUID + "'");
@@ -155,7 +156,7 @@ public class SupporterManager {
         }
     }
 
-    public boolean isLoggedIn(String supUUID) {
+    public boolean isLoggedIn(UUID supUUID) {
         try {
             ResultSet resultSet = MySQL.getInstance().qry("SELECT isLoggedIn FROM supporters WHERE supUUID = '" + supUUID + "'");
             if (resultSet.next()) {
@@ -167,7 +168,7 @@ public class SupporterManager {
         return false;
     }
 
-    public void toggleIsLoggedIn(String supUUID) {
+    public void toggleIsLoggedIn(UUID supUUID) {
         CompletableFuture.supplyAsync(() -> {
             ResultSet resultSet = MySQL.getInstance().qry("SELECT isLoggedIn FROM supporters WHERE supUUID = '" + supUUID + "'");
             try {

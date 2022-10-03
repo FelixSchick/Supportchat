@@ -1,5 +1,8 @@
 package de.bravemc.supportchat;
 
+import de.bravemc.coreapi.utils.MessageUtil;
+import de.bravemc.coreapi.utils.UUIDFetcher;
+import de.bravemc.coreapi.utils.enums.Module;
 import de.bravemc.supportchat.commands.SupportCommand;
 import de.bravemc.supportchat.listeners.PlayerChatListener;
 import de.bravemc.supportchat.listeners.PlayerLoginListener;
@@ -17,15 +20,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 
-public final class Supportchat extends Plugin {
+@Getter
+public final class SupportChat extends Plugin {
 
     @Getter
-    private static Supportchat instance;
-    @Getter
+    private static SupportChat instance;
     private Configuration config;
 
-    @Getter
-    private final String prefix = "§8[§9Support§8] §7";
+    private final String prefix = MessageUtil.getPrefix(Module.SUPPORT);
+
+    private UUIDFetcher uuidFetcher;
 
     @Override
     public void onLoad() {
@@ -34,12 +38,13 @@ public final class Supportchat extends Plugin {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+        instance = this;
+        uuidFetcher = new UUIDFetcher(1);
     }
 
     @Override
     public void onEnable() {
         // Plugin startup logic
-        instance = this;
         createFiles();
         MySQL.getInstance().connect();
         MySQL.getInstance().createTables();
