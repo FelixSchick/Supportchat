@@ -29,11 +29,6 @@ public class MySQL {
         return instance;
     }
 
-    @Override
-    protected void finalize() {
-        disconnect();
-    }
-
     public void connect() {
         try {
             final String url = "jdbc:mysql://" + host + ":" + port + "/" + database + "?autoReconnect=true";

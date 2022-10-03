@@ -44,7 +44,6 @@ public final class SupportChat extends Plugin {
 
     @Override
     public void onEnable() {
-        // Plugin startup logic
         createFiles();
         MySQL.getInstance().connect();
         MySQL.getInstance().createTables();
@@ -57,6 +56,7 @@ public final class SupportChat extends Plugin {
 
     @Override
     public void onDisable() {
+        MySQL.getInstance().disconnect();
     }
 
     private void createFiles() {
