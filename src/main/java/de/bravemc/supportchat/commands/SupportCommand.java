@@ -313,16 +313,20 @@ public class SupportCommand extends Command implements TabExecutor {
                                         final Timestamp closedDate = ticketManager.getClosedDate(ticketID);
                                         final TicketStatus status = ticketManager.getStatus(ticketID);
 
-                                        player.sendMessage(TextComponent.fromLegacyText(SupportChat.getInstance().getPrefix() + "§7Ticket-ID: §e" + ticketID));
-                                        SupportChat.getInstance().getUuidFetcher().fetchNameAsync(UUID.fromString(userUUID), name -> player.sendMessage(TextComponent.fromLegacyText(SupportChat.getInstance().getPrefix() + "§7Spieler: §e" + name)));
-                                        player.sendMessage(TextComponent.fromLegacyText(SupportChat.getInstance().getPrefix() + "§7Erstellt am: §e" + dateFormat.format(creatingDate.toInstant().toEpochMilli())));
-                                        player.sendMessage(TextComponent.fromLegacyText(SupportChat.getInstance().getPrefix() + "§7Geschlossen am: §e" + dateFormat.format(closedDate.toInstant().toEpochMilli())));
-                                        player.sendMessage(TextComponent.fromLegacyText(SupportChat.getInstance().getPrefix() + "§7Supporter: §e"));
-                                        for (final UUID supUUID : ticketManager.getSupUUIDs(ticketID)) {
-                                            SupportChat.getInstance().getUuidFetcher().fetchNameAsync(supUUID, name -> player.sendMessage(TextComponent.fromLegacyText(SupportChat.getInstance().getPrefix() + "§8- §e" + name)));
-                                        }
-                                        player.sendMessage(TextComponent.fromLegacyText(SupportChat.getInstance().getPrefix() + "§7Status: §e" + status.getStatus()));
-                                        player.sendMessage(TextComponent.fromLegacyText(SupportChat.getInstance().getPrefix() + " "));
+                                        SupportChat.getInstance().getUuidFetcher().fetchNameAsync(UUID.fromString(userUUID), name -> {
+                                            player.sendMessage(TextComponent.fromLegacyText(SupportChat.getInstance().getPrefix() + "§7Ticket-ID: §e" + ticketID));
+                                            player.sendMessage(TextComponent.fromLegacyText(SupportChat.getInstance().getPrefix() + "§7Spieler: §e" + name));
+                                            player.sendMessage(TextComponent.fromLegacyText(SupportChat.getInstance().getPrefix() + "§7Erstellt am: §e" + dateFormat.format(creatingDate.toInstant().toEpochMilli())));
+                                            player.sendMessage(TextComponent.fromLegacyText(SupportChat.getInstance().getPrefix() + "§7Geschlossen am: §e" + dateFormat.format(closedDate.toInstant().toEpochMilli())));
+                                            player.sendMessage(TextComponent.fromLegacyText(SupportChat.getInstance().getPrefix() + "§7Supporter: §e"));
+                                            player.sendMessage(TextComponent.fromLegacyText(SupportChat.getInstance().getPrefix() + "§7Status: §e" + status.getStatus()));
+                                            for (final UUID supUUID : ticketManager.getSupUUIDs(ticketID)) {
+                                                SupportChat.getInstance().getUuidFetcher().fetchNameAsync(supUUID, supporterName -> {
+                                                    player.sendMessage(TextComponent.fromLegacyText(SupportChat.getInstance().getPrefix() + "§8- §e" + supporterName));
+                                                });
+                                            }
+                                            player.sendMessage(TextComponent.fromLegacyText(SupportChat.getInstance().getPrefix() + " "));
+                                        });
                                     }
                                 });
                             } else {
