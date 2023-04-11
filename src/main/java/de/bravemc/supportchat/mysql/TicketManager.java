@@ -12,7 +12,7 @@ import java.util.concurrent.ExecutionException;
 public class TicketManager {
     //Datenbank 2: ticketID, userUUID, supUUIDs, creatingDate, deleteDate, status
     //insert new ticket with ticketID, userUUID, supUUIDs, creatingDate, deleteDate, status
-    public void insertTicket(String userUUID, String supUUIDs, TicketStatus status) {
+    public void insertTicket(UUID userUUID, String supUUIDs, TicketStatus status) {
         Random random = new Random();
         int randomInt = random.nextInt(999999999);
         CompletableFuture.supplyAsync(() -> MySQL.getInstance().update("INSERT INTO tickets (ticketID, userUUID, supUUIDs, status) VALUES ('" + randomInt + "', '" + userUUID + "', '" + supUUIDs + "',  '" + status.toString() + "')"));
@@ -20,7 +20,7 @@ public class TicketManager {
 
     //get ticketID from userUUID
     //get ticketID if status = status
-    public int getTicketID(String userUUID, TicketStatus status) {
+    public int getTicketID(UUID userUUID, TicketStatus status) {
         try {
             return CompletableFuture.supplyAsync(() -> {
                 final ResultSet resultSet = MySQL.getInstance().qry("SELECT ticketID FROM tickets WHERE userUUID = '" + userUUID + "' AND status = '" + status.toString() + "'");
@@ -39,7 +39,7 @@ public class TicketManager {
     }
 
     //get ticketID from userUUID order by creatingDate
-    public int getTicketIDOrderd(String userUUID) {
+    public int getTicketIDOrderd(UUID userUUID) {
         try {
             return CompletableFuture.supplyAsync(() -> {
                 final ResultSet resultSet = MySQL.getInstance().qry("SELECT ticketID FROM tickets WHERE userUUID = '" + userUUID + "' ORDER BY creatingDate DESC");
@@ -58,7 +58,7 @@ public class TicketManager {
     }
 
     //get all tickets from userUUID
-    public List<Integer> getTickets(String userUUID) {
+    public List<Integer> getTickets(UUID userUUID) {
         try {
             return CompletableFuture.supplyAsync(() -> {
                 List<Integer> tickets = new ArrayList<>();
@@ -135,7 +135,7 @@ public class TicketManager {
     }
 
     //check if useruuid exist and status is open
-    public boolean isTicketOpen(String userUUID) {
+    public boolean isTicketOpen(UUID userUUID) {
         try {
             return CompletableFuture.supplyAsync(() -> {
                 try {
@@ -156,16 +156,16 @@ public class TicketManager {
     }
 
     //add supUUIDs to list ticket
-    public void addSups(int ticketID, String supUUID) {
+    public void addSups(int ticketID, UUID supUUID) {
         CompletableFuture.supplyAsync(() -> {
             try {
                 ResultSet resultSet = MySQL.getInstance().qry("SELECT supUUIDs FROM tickets WHERE ticketID = '" + ticketID + "'");
                 if (resultSet.next()) {
                     String supUUIDs = resultSet.getString("supUUIDs");
                     if (supUUIDs.equals("")) {
-                        supUUIDs = supUUID + "";
+                        supUUIDs = supUUID.toString() + "";
                     } else {
-                        supUUIDs += "," + supUUID;
+                        supUUIDs += "," + supUUID.toString();
                     }
                     final String finalSupUUIDs = supUUIDs;
                     CompletableFuture.supplyAsync(() -> MySQL.getInstance().update("UPDATE tickets SET supUUIDs = '" + finalSupUUIDs + "' WHERE ticketID = '" + ticketID + "'"));

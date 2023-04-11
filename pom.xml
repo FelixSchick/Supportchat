@@ -12,7 +12,7 @@
     <name>Supportchat</name>
 
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>16</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -58,6 +58,10 @@
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
+        <repository>
+            <id>bravemc-snapshots</id>
+            <url>https://dev.bravemc.de/repository/bravemc-snapshots/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -72,6 +76,13 @@
             <artifactId>lombok</artifactId>
             <version>1.18.24</version>
             <scope>compile</scope>
+        </dependency>
+        <!--- Bungee-CoreAPI -->
+        <dependency>
+            <groupId>de.bravemc</groupId>
+            <artifactId>bungee-coreapi</artifactId>
+            <version>1.2</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

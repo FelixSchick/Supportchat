@@ -29,11 +29,6 @@ public class MySQL {
         return instance;
     }
 
-    @Override
-    protected void finalize() {
-        disconnect();
-    }
-
     public void connect() {
         try {
             final String url = "jdbc:mysql://" + host + ":" + port + "/" + database + "?autoReconnect=true";
@@ -87,13 +82,25 @@ public class MySQL {
         update("CREATE TABLE IF NOT EXISTS `tickets` ( `ticketID` VARCHAR(16), `userUUID` VARCHAR(36), `supUUIDs` TEXT(65535), `creatingDate` TIMESTAMP DEFAULT CURRENT_TIMESTAMP, `closedDate` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, `status` VARCHAR(10), PRIMARY KEY (`ticketID`)) ENGINE = InnoDB;");
     }
 
-    private void reconnect() {
-        try {
-            if (connection.isClosed() || connection == null) {
-                connect();
+    public boolean isConnected(){
+        if(connection != null){
+            try {
+                if(!connection.isClosed()){
+                    if(connection.isValid(10)){
+                        return true;
+                    }
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
+        return false;
+    }
+
+    private void reconnect() {
+       if(!isConnected()){
+           disconnect();
+           connect();
+       }
     }
 }
