@@ -1,10 +1,10 @@
-package de.bravemc.supportchat;
+package de.illegalaccess.supportchat;
 
-import de.bravemc.supportchat.commands.SupportCommand;
-import de.bravemc.supportchat.listeners.PlayerChatListener;
-import de.bravemc.supportchat.listeners.PlayerLoginListener;
-import de.bravemc.supportchat.listeners.PlayerQuitListener;
-import de.bravemc.supportchat.mysql.MySQL;
+import de.illegalaccess.supportchat.commands.SupportCommand;
+import de.illegalaccess.supportchat.listeners.PlayerChatListener;
+import de.illegalaccess.supportchat.listeners.PlayerLoginListener;
+import de.illegalaccess.supportchat.listeners.PlayerQuitListener;
+import de.illegalaccess.supportchat.mysql.MySQL;
 import lombok.Getter;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;

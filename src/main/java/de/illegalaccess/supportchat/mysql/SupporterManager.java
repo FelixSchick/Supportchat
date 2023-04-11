@@ -1,4 +1,4 @@
-package de.bravemc.supportchat.mysql;
+package de.illegalaccess.supportchat.mysql;
 
 import com.google.common.collect.Lists;
 import lombok.SneakyThrows;

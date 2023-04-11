@@ -1,4 +1,4 @@
-package de.bravemc.supportchat.utils;
+package de.illegalaccess.supportchat.utils;
 
 public enum TicketStatus {
     OPEN("geöffnet"),

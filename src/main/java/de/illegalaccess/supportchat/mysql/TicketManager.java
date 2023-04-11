@@ -1,6 +1,6 @@
-package de.bravemc.supportchat.mysql;
+package de.illegalaccess.supportchat.mysql;
 
-import de.bravemc.supportchat.utils.TicketStatus;
+import de.illegalaccess.supportchat.utils.TicketStatus;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

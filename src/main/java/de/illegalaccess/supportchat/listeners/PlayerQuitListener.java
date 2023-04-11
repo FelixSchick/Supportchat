@@ -1,7 +1,7 @@
-package de.bravemc.supportchat.listeners;
+package de.illegalaccess.supportchat.listeners;
 
-import de.bravemc.supportchat.mysql.TicketManager;
-import de.bravemc.supportchat.utils.TicketStatus;
+import de.illegalaccess.supportchat.mysql.TicketManager;
+import de.illegalaccess.supportchat.utils.TicketStatus;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;

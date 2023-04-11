@@ -1,9 +1,9 @@
-package de.bravemc.supportchat.listeners;
+package de.illegalaccess.supportchat.listeners;
 
-import de.bravemc.supportchat.SupportChat;
-import de.bravemc.supportchat.mysql.SupporterManager;
-import de.bravemc.supportchat.mysql.TicketManager;
-import de.bravemc.supportchat.utils.TicketStatus;
+import de.illegalaccess.supportchat.SupportChat;
+import de.illegalaccess.supportchat.mysql.SupporterManager;
+import de.illegalaccess.supportchat.mysql.TicketManager;
+import de.illegalaccess.supportchat.utils.TicketStatus;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
