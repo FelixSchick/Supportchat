@@ -1,6 +1,6 @@
 package de.bravemc.supportchat.listeners;
 
-import de.bravemc.supportchat.Supportchat;
+import de.bravemc.supportchat.SupportChat;
 import de.bravemc.supportchat.mysql.SupporterManager;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -20,7 +20,7 @@ public class PlayerLoginListener implements Listener {
                 manager.insertSupporter(player.getUniqueId().toString(), 0, true);
             }
             final boolean loggedIn = manager.isLoggedIn(player.getUniqueId().toString());
-            player.sendMessage(TextComponent.fromLegacyText(Supportchat.getInstance().getPrefix() + "§7Status§8: " + (loggedIn ? "§aeingeloggt" : "§causgeloggt")));
+            player.sendMessage(TextComponent.fromLegacyText(SupportChat.getInstance().getPrefix() + "§7Status§8: " + (loggedIn ? "§aeingeloggt" : "§causgeloggt")));
         }
     }
 }

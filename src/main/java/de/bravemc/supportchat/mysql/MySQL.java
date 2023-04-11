@@ -1,6 +1,6 @@
 package de.bravemc.supportchat.mysql;
 
-import de.bravemc.supportchat.Supportchat;
+import de.bravemc.supportchat.SupportChat;
 
 import java.sql.*;
 
@@ -15,11 +15,11 @@ public class MySQL {
     private final String password;
 
     public MySQL() {
-        host = Supportchat.getInstance().getConfig().getString("MySQL.host");
-        port = Supportchat.getInstance().getConfig().getInt("MySQL.port");
-        database = Supportchat.getInstance().getConfig().getString("MySQL.database");
-        username = Supportchat.getInstance().getConfig().getString("MySQL.username");
-        password = Supportchat.getInstance().getConfig().getString("MySQL.password");
+        host = SupportChat.getInstance().getConfig().getString("MySQL.host");
+        port = SupportChat.getInstance().getConfig().getInt("MySQL.port");
+        database = SupportChat.getInstance().getConfig().getString("MySQL.database");
+        username = SupportChat.getInstance().getConfig().getString("MySQL.username");
+        password = SupportChat.getInstance().getConfig().getString("MySQL.password");
     }
 
     public static MySQL getInstance() {
@@ -38,10 +38,10 @@ public class MySQL {
         try {
             final String url = "jdbc:mysql://" + host + ":" + port + "/" + database + "?autoReconnect=true";
             connection = DriverManager.getConnection(url, username, password);
-            System.out.println(Supportchat.getInstance().getPrefix() + "§aDie verbindung zur MySQL-Datenbank wurde hergestellt.");
+            System.out.println(SupportChat.getInstance().getPrefix() + "§aDie verbindung zur MySQL-Datenbank wurde hergestellt.");
         } catch (SQLException exception) {
             exception.fillInStackTrace();
-            System.out.println(Supportchat.getInstance().getPrefix() + "§cEin Fehler ist aufgetreten, bitte überprüfe deine config!");
+            System.out.println(SupportChat.getInstance().getPrefix() + "§cEin Fehler ist aufgetreten, bitte überprüfe deine config!");
         }
     }
 
@@ -50,7 +50,7 @@ public class MySQL {
             if (connection != null) connection.close();
         } catch (SQLException exception) {
             exception.fillInStackTrace();
-            System.out.println(Supportchat.getInstance().getPrefix() + "§cEin Fehler ist aufgetreten, bitte überprüfe deine config!");
+            System.out.println(SupportChat.getInstance().getPrefix() + "§cEin Fehler ist aufgetreten, bitte überprüfe deine config!");
         }
     }
 
@@ -61,7 +61,7 @@ public class MySQL {
             return statement.executeUpdate();
         } catch (SQLException exception) {
             exception.printStackTrace();
-            System.out.println(Supportchat.getInstance().getPrefix() + "§cEin Fehler ist aufgetreten, Exception: update error");
+            System.out.println(SupportChat.getInstance().getPrefix() + "§cEin Fehler ist aufgetreten, Exception: update error");
         }
         return -1;
     }

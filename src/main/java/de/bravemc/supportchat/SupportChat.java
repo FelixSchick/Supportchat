@@ -17,10 +17,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 
-public final class Supportchat extends Plugin {
+public final class SupportChat extends Plugin {
 
     @Getter
-    private static Supportchat instance;
+    private static SupportChat instance;
     @Getter
     private Configuration config;
 
@@ -48,10 +48,6 @@ public final class Supportchat extends Plugin {
         ProxyServer.getInstance().getPluginManager().registerListener(this, new PlayerChatListener());
         ProxyServer.getInstance().getPluginManager().registerListener(this, new PlayerLoginListener());
         ProxyServer.getInstance().getPluginManager().registerListener(this, new PlayerQuitListener());
-    }
-
-    @Override
-    public void onDisable() {
     }
 
     private void createFiles() {

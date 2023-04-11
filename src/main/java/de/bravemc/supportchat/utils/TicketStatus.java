@@ -4,7 +4,7 @@ public enum TicketStatus {
     OPEN("geöffnet"),
     IN_PROGRESS("in Bearbeitung"),
     CLOSED("geschlossen"),
-    DELETED("geschlossen");
+    DELETED("gelöcht");
 
     private final String status;
 
